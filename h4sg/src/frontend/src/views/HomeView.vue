@@ -122,7 +122,7 @@ function fetchBoxInfo(id) {
 }
 
 onMounted(() => {
-  const id = route.query.box
+  const id = route.params.id
   if (!id) {
     error.value = 'No box ID found. Please scan a QR code on a book box.'
     return
@@ -132,12 +132,12 @@ onMounted(() => {
 })
 
 const purpleButtons = [
-  { name: 'add-book', label: 'Add Book',    route: 'add-book' },
-  { name: 'borrow',   label: 'Borrow Book', route: 'borrow' },
+  { name: 'add',    label: 'Add Book',    route: 'add' },
+  { name: 'borrow', label: 'Borrow Book', route: 'borrow' },
 ]
 const orangeButtons = [
-  { name: 'book-list', label: 'Book List',       route: 'book-list' },
-  { name: 'book-info', label: 'Info About Book',  route: 'book-info' },
+  { name: 'books', label: 'Book List',       route: 'books' },
+  { name: 'info',  label: 'Info About Book', route: 'info' },
 ]
 const creamButtons = [
   { name: 'games', label: 'Games',            route: 'games' },

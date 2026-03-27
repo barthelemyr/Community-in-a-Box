@@ -32,12 +32,12 @@ const route = useRoute()
 const router = useRouter()
 
 const pageTitles = {
-  'add-book':  { title: 'Add A\nBook',         color: '#ffffff', bg: '#B8B0E8' },
-  'borrow':    { title: 'Borrow\nA Book',       color: '#ffffff', bg: '#B8B0E8' },
-  'book-list': { title: 'Book List',            color: '#E87D4A', bg: '#F0EDE0' },
-  'book-info': { title: 'Info About\nBook',     color: '#ffffff', bg: '#E87D4A' },
-  'games':     { title: 'Games',                color: '#E87D4A', bg: '#F0EDE0' },
-  'help':      { title: 'Help The\nLibrary',    color: '#E87D4A', bg: '#F0EDE0' },
+  'add':    { title: 'Add A\nBook',      color: '#ffffff', bg: '#B8B0E8' },
+  'borrow': { title: 'Borrow\nA Book',   color: '#ffffff', bg: '#B8B0E8' },
+  'books':  { title: 'Book List',        color: '#E87D4A', bg: '#F0EDE0' },
+  'info':   { title: 'Info About\nBook', color: '#ffffff', bg: '#E87D4A' },
+  'games':  { title: 'Games',            color: '#E87D4A', bg: '#F0EDE0' },
+  'help':   { title: 'Help The\nLibrary', color: '#E87D4A', bg: '#F0EDE0' },
 }
 
 const pageConfig = computed(() => pageTitles[route.name] ?? { title: route.name, color: '#E87D4A', bg: '#F0EDE0' })
@@ -46,7 +46,7 @@ const titleColor = computed(() => pageConfig.value.color)
 const bgColor = computed(() => pageConfig.value.bg)
 
 function goHome() {
-  router.push({ name: 'home', query: { box: route.params.id } })
+  router.push({ name: 'home', params: { id: route.params.id } })
 }
 </script>
 
