@@ -1,13 +1,5 @@
 <template>
-  <div class="min-h-screen flex flex-col" style="background-color: #B8B0E8;">
-
-    <!-- Home page link -->
-    <div class="p-4">
-      <button @click="goHome" class="font-bold underline text-gray-800 hover:opacity-70 transition-opacity">
-        {{ t('homePage') }}
-      </button>
-    </div>
-
+  <div class="min-h-screen flex flex-col">
     <div class="flex-1 flex flex-col lg:flex-row items-center lg:items-start gap-6 px-6 pb-10 lg:px-12">
 
       <!-- Left: page title -->

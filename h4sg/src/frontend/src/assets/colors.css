@@ -9,12 +9,12 @@
 @theme {
   /* Page backgrounds */
   --color-box-yellow:     #F5D85E;   /* Home page */
-  --color-box-purple-bg:  #B8B0E8;   /* Add Book / Borrow Book pages */
+  --color-box-purple-bg:  #826DEF;   /* Add Book / Borrow Book pages */
   --color-box-orange-bg:  #E87D4A;   /* Info About Book page */
   --color-box-cream:      #F0EDE0;   /* Book List / Games / Help pages */
 
   /* Button fills */
-  --color-box-purple:     #A89FD8;   /* Add Book, Borrow Book buttons */
+  --color-box-purple:     #826DEF;   /* Add Book, Borrow Book buttons */
   --color-box-orange:     #E87D4A;   /* Book List, Info About Book buttons */
   --color-box-cream-btn:  #F5F0E0;   /* Games, Help the Library buttons */
 
