@@ -19,6 +19,38 @@
     "games":  "Spiele",
     "help":   "Bibliothek unterstützen"
   },
+  "infoPage": {
+    "instruction": "Scannen Sie den ISBN-Barcode des Buches, über das Sie mehr erfahren möchten!",
+    "enterManually": "ISBN manuell eingeben",
+    "manualPlaceholder": "ISBN eingeben (z.B. 978-3-16-148410-0)",
+    "submitIsbn": "Bestätigen",
+    "cancel": "Abbrechen",
+    "scanning": "Scannen…",
+    "cameraError": "Kamera nicht verfügbar. Bitte ISBN manuell eingeben.",
+    "permissionDenied": "Kamerazugriff verweigert. Bitte ISBN manuell eingeben.",
+    "isbnFound": "ISBN gefunden",
+    "loading": "Buch wird gesucht…",
+    "notFound": "Kein Buch für diese ISBN gefunden.",
+    "author": "Autor",
+    "publisher": "Verlag",
+    "published": "Erschienen",
+    "scanAgain": "Erneut scannen"
+  },
+  "borrowPage": {
+    "instruction": "Scannen Sie hier den ISBN-Barcode des Buches, das Sie ausleihen möchten! Danke :)",
+    "enterManually": "ISBN manuell eingeben",
+    "readReviews": "Rezensionen lesen",
+    "manualPlaceholder": "ISBN eingeben (z.B. 978-3-16-148410-0)",
+    "submitIsbn": "Bestätigen",
+    "cancel": "Abbrechen",
+    "scanning": "Scannen…",
+    "cameraError": "Kamera nicht verfügbar. Bitte ISBN manuell eingeben.",
+    "permissionDenied": "Kamerazugriff verweigert. Bitte ISBN manuell eingeben.",
+    "isbnFound": "ISBN gefunden",
+    "confirmBorrow": "Dieses Buch aus Box ausleihen",
+    "confirm": "Bestätigen",
+    "scanAgain": "Erneut scannen"
+  },
   "addBookPage": {
     "instruction": "Scannen Sie hier den ISBN-Barcode des Buches, das Sie der Bibliothek hinzufügen möchten! Danke :)",
     "enterManually": "ISBN manuell eingeben",

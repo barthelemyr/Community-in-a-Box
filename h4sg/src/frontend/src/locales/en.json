@@ -19,6 +19,38 @@
     "games":  "Games",
     "help":   "Help The Library"
   },
+  "borrowPage": {
+    "instruction": "Scan the ISBN barcode of the book you want to borrow from the library here! Thank you :)",
+    "enterManually": "Enter ISBN Manually",
+    "readReviews": "Read the Reviews",
+    "manualPlaceholder": "Enter ISBN (e.g. 978-3-16-148410-0)",
+    "submitIsbn": "Submit",
+    "cancel": "Cancel",
+    "scanning": "Scanning…",
+    "cameraError": "Camera not available. Please enter the ISBN manually.",
+    "permissionDenied": "Camera permission denied. Please enter the ISBN manually.",
+    "isbnFound": "ISBN found",
+    "confirmBorrow": "Borrow this book from Box",
+    "confirm": "Confirm",
+    "scanAgain": "Scan again"
+  },
+  "infoPage": {
+    "instruction": "Scan the ISBN barcode of the book you want more information about!",
+    "enterManually": "Enter ISBN Manually",
+    "manualPlaceholder": "Enter ISBN (e.g. 978-3-16-148410-0)",
+    "submitIsbn": "Submit",
+    "cancel": "Cancel",
+    "scanning": "Scanning…",
+    "cameraError": "Camera not available. Please enter the ISBN manually.",
+    "permissionDenied": "Camera permission denied. Please enter the ISBN manually.",
+    "isbnFound": "ISBN found",
+    "loading": "Looking up book…",
+    "notFound": "No book found for this ISBN.",
+    "author": "Author",
+    "publisher": "Publisher",
+    "published": "Published",
+    "scanAgain": "Scan again"
+  },
   "addBookPage": {
     "instruction": "Scan the ISBN barcode of the book you want to add to the library here! Thank you :)",
     "enterManually": "Enter ISBN Manually",
