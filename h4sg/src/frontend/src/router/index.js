@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import BoxView from '../views/BoxView.vue'
 import PlaceholderView from '../views/PlaceholderView.vue'
+import AddBook from '../views/AddBook.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,10 +10,10 @@ const router = createRouter({
     { path: '/', redirect: '/box' },
 
     // Box home — QR code points here: /box/4
-    { path: '/box/:id', name: 'home', component: HomeView },
+    { path: '/box/:id', name: 'home', component: BoxView },
 
     // Actions scoped to a specific box
-    { path: '/box/:id/add',    name: 'add',    component: PlaceholderView },
+    { path: '/box/:id/add',    name: 'add',    component: AddBook },
     { path: '/box/:id/borrow', name: 'borrow', component: PlaceholderView },
     { path: '/box/:id/books',  name: 'books',  component: PlaceholderView },
     { path: '/box/:id/info',   name: 'info',   component: PlaceholderView },
