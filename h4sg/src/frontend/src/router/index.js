@@ -13,15 +13,40 @@ const router = createRouter({
     { path: '/', redirect: '/box' },
 
     // Box home — QR code points here: /box/4
-    { path: '/box/:id', name: 'home', component: BoxView },
+    { path: '/box/:id', name: 'home', component: BoxView, meta: { bgClass: 'page-yellow' } },
 
     // Actions scoped to a specific box
-    { path: '/box/:id/add',    name: 'add',    component: AddBook },
-    { path: '/box/:id/borrow', name: 'borrow', component: RemoveBook },
-    { path: '/box/:id/books',  name: 'books',  component: BookList, meta: { bgClass: "page-purple" } },
-    { path: '/box/:id/info',   name: 'info',   component: InfoAboutBook },
-    { path: '/box/:id/games',  name: 'games',  component: PlaceholderView },
-    { path: '/box/:id/help',   name: 'help',   component: PlaceholderView },
+    { path: '/box/:id/add', name: 'add', component: AddBook, meta: { bgClass: 'page-purple' } },
+    {
+      path: '/box/:id/borrow',
+      name: 'borrow',
+      component: RemoveBook,
+      meta: { bgClass: 'page-purple' },
+    },
+    {
+      path: '/box/:id/books',
+      name: 'books',
+      component: BookList,
+      meta: { bgClass: 'page-purple' },
+    },
+    {
+      path: '/box/:id/info',
+      name: 'info',
+      component: InfoAboutBook,
+      meta: { bgClass: 'page-orange' },
+    },
+    {
+      path: '/box/:id/games',
+      name: 'games',
+      component: PlaceholderView,
+      meta: { bgClass: 'page-cream' },
+    },
+    {
+      path: '/box/:id/help',
+      name: 'help',
+      component: PlaceholderView,
+      meta: { bgClass: 'page-cream' },
+    },
 
     // Catch-all: unknown routes redirect to /box
     { path: '/:pathMatch(.*)*', redirect: '/box' },
