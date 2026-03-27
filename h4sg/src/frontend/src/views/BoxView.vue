@@ -1,7 +1,7 @@
 <template>
   <div class="box-wrapper">
     <header>
-      <div class="p-4">
+      <div class="p-5">
         <button
           v-if="route.name !== 'boxHome'"
           @click="backToBox"
