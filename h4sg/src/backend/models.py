@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import DateTime, Float, ForeignKey, String, func
+from sqlalchemy import DateTime, Float, ForeignKey, String, func, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database import Base
@@ -9,7 +9,12 @@ from database import Base
 class Shelf(Base):
     __tablename__ = "shelves"
 
-    id: Mapped[str] = mapped_column(String(16), primary_key=True, index=True)
+    id: Mapped[str] = mapped_column(
+        String(16),
+        primary_key=True,
+        index=True,
+        server_default=text("lower(hex(randomblob(8)))"),
+    )
     name: Mapped[str] = mapped_column(String, nullable=False, unique=True)
     latitude: Mapped[float] = mapped_column(Float, nullable=False)
     longitude: Mapped[float] = mapped_column(Float, nullable=False)
