@@ -16,7 +16,7 @@ const router = createRouter({
     // Actions scoped to a specific box
     { path: '/box/:id/add',    name: 'add',    component: AddBook },
     { path: '/box/:id/borrow', name: 'borrow', component: PlaceholderView },
-    { path: '/box/:id/books',  name: 'books',  component: BookList },
+    { path: '/box/:id/books',  name: 'books',  component: BookList, meta: { bgClass: "page-purple" } },
     { path: '/box/:id/info',   name: 'info',   component: PlaceholderView },
     { path: '/box/:id/games',  name: 'games',  component: PlaceholderView },
     { path: '/box/:id/help',   name: 'help',   component: PlaceholderView },
