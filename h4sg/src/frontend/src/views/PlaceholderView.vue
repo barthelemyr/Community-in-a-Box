@@ -6,20 +6,20 @@
         @click="goHome"
         class="font-bold underline text-gray-800 hover:opacity-70 transition-opacity"
       >
-        Home page
+        {{ t('homePage') }}
       </button>
     </div>
 
     <!-- Page content -->
     <div class="flex-1 flex flex-col md:flex-row items-center justify-center gap-8 px-8 pb-12">
       <h1
-        class="font-black uppercase tracking-widest text-left leading-none"
+        class="font-black uppercase tracking-widest text-left leading-none whitespace-pre-line"
         :style="{ color: titleColor, fontSize: 'clamp(2.5rem, 10vw, 5rem)' }"
       >
-        {{ pageTitle }}
+        {{ t(`pages.${route.name}`) }}
       </h1>
 
-      <p class="text-gray-600 text-lg">Coming soon…</p>
+      <p class="text-gray-600 text-lg">{{ t('comingSoon') }}</p>
     </div>
   </div>
 </template>
@@ -27,21 +27,22 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useLocale } from '../composables/useLocale.js'
 
 const route = useRoute()
 const router = useRouter()
+const { t } = useLocale()
 
-const pageTitles = {
-  'add':    { title: 'Add A\nBook',      color: '#ffffff', bg: '#B8B0E8' },
-  'borrow': { title: 'Borrow\nA Book',   color: '#ffffff', bg: '#B8B0E8' },
-  'books':  { title: 'Book List',        color: '#E87D4A', bg: '#F0EDE0' },
-  'info':   { title: 'Info About\nBook', color: '#ffffff', bg: '#E87D4A' },
-  'games':  { title: 'Games',            color: '#E87D4A', bg: '#F0EDE0' },
-  'help':   { title: 'Help The\nLibrary', color: '#E87D4A', bg: '#F0EDE0' },
+const pageColors = {
+  add:    { color: '#ffffff', bg: '#B8B0E8' },
+  borrow: { color: '#ffffff', bg: '#B8B0E8' },
+  books:  { color: '#E87D4A', bg: '#F0EDE0' },
+  info:   { color: '#ffffff', bg: '#E87D4A' },
+  games:  { color: '#E87D4A', bg: '#F0EDE0' },
+  help:   { color: '#E87D4A', bg: '#F0EDE0' },
 }
 
-const pageConfig = computed(() => pageTitles[route.name] ?? { title: route.name, color: '#E87D4A', bg: '#F0EDE0' })
-const pageTitle = computed(() => pageConfig.value.title)
+const pageConfig = computed(() => pageColors[route.name] ?? { color: '#E87D4A', bg: '#F0EDE0' })
 const titleColor = computed(() => pageConfig.value.color)
 const bgColor = computed(() => pageConfig.value.bg)
 
