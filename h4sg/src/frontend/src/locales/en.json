@@ -1,0 +1,22 @@
+{
+  "library": "Public Library Bienne",
+  "address": "Address",
+  "noBox": "No box ID found. Please scan a QR code on a book box.",
+  "boxPhoto": "Community book box",
+  "addBook": "Add Book",
+  "borrowBook": "Borrow Book",
+  "bookList": "Book List",
+  "bookInfo": "Info About Book",
+  "games": "Games",
+  "help": "Help the Library",
+  "homePage": "Home page",
+  "comingSoon": "Coming soon…",
+  "pages": {
+    "add":    "Add A Book",
+    "borrow": "Borrow A Book",
+    "books":  "Book List",
+    "info":   "Info About Book",
+    "games":  "Games",
+    "help":   "Help The Library"
+  }
+}

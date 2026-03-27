@@ -1,8 +1,27 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import PlaceholderView from '../views/PlaceholderView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [],
+  routes: [
+    // Redirect bare domain to a landing or catch-all — no box selected
+    { path: '/', redirect: '/box' },
+
+    // Box home — QR code points here: /box/4
+    { path: '/box/:id', name: 'home', component: HomeView },
+
+    // Actions scoped to a specific box
+    { path: '/box/:id/add',    name: 'add',    component: PlaceholderView },
+    { path: '/box/:id/borrow', name: 'borrow', component: PlaceholderView },
+    { path: '/box/:id/books',  name: 'books',  component: PlaceholderView },
+    { path: '/box/:id/info',   name: 'info',   component: PlaceholderView },
+    { path: '/box/:id/games',  name: 'games',  component: PlaceholderView },
+    { path: '/box/:id/help',   name: 'help',   component: PlaceholderView },
+
+    // Catch-all: unknown routes redirect to /box
+    { path: '/:pathMatch(.*)*', redirect: '/box' },
+  ],
 })
 
 export default router

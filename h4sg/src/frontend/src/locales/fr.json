@@ -1,0 +1,22 @@
+{
+  "library": "Bibliothèque publique de Bienne",
+  "address": "Adresse",
+  "noBox": "Aucun identifiant de boîte trouvé. Veuillez scanner le QR code sur une boîte à livres.",
+  "boxPhoto": "Boîte à livres communautaire",
+  "addBook": "Ajouter un livre",
+  "borrowBook": "Emprunter un livre",
+  "bookList": "Liste des livres",
+  "bookInfo": "Infos sur le livre",
+  "games": "Jeux",
+  "help": "Aider la bibliothèque",
+  "homePage": "Page d'accueil",
+  "comingSoon": "Bientôt disponible…",
+  "pages": {
+    "add":    "Ajouter un livre",
+    "borrow": "Emprunter un livre",
+    "books":  "Liste des livres",
+    "info":   "Infos sur le livre",
+    "games":  "Jeux",
+    "help":   "Aider la bibliothèque"
+  }
+}
