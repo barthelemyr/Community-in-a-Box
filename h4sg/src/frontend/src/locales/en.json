@@ -18,5 +18,20 @@
     "info":   "Info About Book",
     "games":  "Games",
     "help":   "Help The Library"
+  },
+  "addBookPage": {
+    "instruction": "Scan the ISBN barcode of the book you want to add to the library here! Thank you :)",
+    "enterManually": "Enter ISBN Manually",
+    "addReview": "Add a Review",
+    "manualPlaceholder": "Enter ISBN (e.g. 978-3-16-148410-0)",
+    "submitIsbn": "Submit",
+    "cancel": "Cancel",
+    "scanning": "Scanning…",
+    "cameraError": "Camera not available. Please enter the ISBN manually.",
+    "permissionDenied": "Camera permission denied. Please enter the ISBN manually.",
+    "isbnFound": "ISBN found",
+    "confirmAdd": "Add this book to Box",
+    "confirm": "Confirm",
+    "scanAgain": "Scan again"
   }
 }

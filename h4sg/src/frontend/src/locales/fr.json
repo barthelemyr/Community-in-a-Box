@@ -18,5 +18,20 @@
     "info":   "Infos sur le livre",
     "games":  "Jeux",
     "help":   "Aider la bibliothèque"
+  },
+  "addBookPage": {
+    "instruction": "Scannez ici le code-barres ISBN du livre que vous souhaitez ajouter à la bibliothèque ! Merci :)",
+    "enterManually": "Saisir l'ISBN manuellement",
+    "addReview": "Ajouter un avis",
+    "manualPlaceholder": "Saisir l'ISBN (ex: 978-3-16-148410-0)",
+    "submitIsbn": "Confirmer",
+    "cancel": "Annuler",
+    "scanning": "Scan en cours…",
+    "cameraError": "Caméra non disponible. Veuillez saisir l'ISBN manuellement.",
+    "permissionDenied": "Accès à la caméra refusé. Veuillez saisir l'ISBN manuellement.",
+    "isbnFound": "ISBN trouvé",
+    "confirmAdd": "Ajouter ce livre à la boîte",
+    "confirm": "Confirmer",
+    "scanAgain": "Scanner à nouveau"
   }
 }
