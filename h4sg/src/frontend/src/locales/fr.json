@@ -19,6 +19,38 @@
     "games":  "Jeux",
     "help":   "Aider la bibliothèque"
   },
+  "infoPage": {
+    "instruction": "Scannez le code-barres ISBN du livre sur lequel vous souhaitez plus d'informations !",
+    "enterManually": "Saisir l'ISBN manuellement",
+    "manualPlaceholder": "Saisir l'ISBN (ex: 978-3-16-148410-0)",
+    "submitIsbn": "Confirmer",
+    "cancel": "Annuler",
+    "scanning": "Scan en cours…",
+    "cameraError": "Caméra non disponible. Veuillez saisir l'ISBN manuellement.",
+    "permissionDenied": "Accès à la caméra refusé. Veuillez saisir l'ISBN manuellement.",
+    "isbnFound": "ISBN trouvé",
+    "loading": "Recherche du livre…",
+    "notFound": "Aucun livre trouvé pour cet ISBN.",
+    "author": "Auteur",
+    "publisher": "Éditeur",
+    "published": "Publié",
+    "scanAgain": "Scanner à nouveau"
+  },
+  "borrowPage": {
+    "instruction": "Scannez ici le code-barres ISBN du livre que vous souhaitez emprunter ! Merci :)",
+    "enterManually": "Saisir l'ISBN manuellement",
+    "readReviews": "Lire les avis",
+    "manualPlaceholder": "Saisir l'ISBN (ex: 978-3-16-148410-0)",
+    "submitIsbn": "Confirmer",
+    "cancel": "Annuler",
+    "scanning": "Scan en cours…",
+    "cameraError": "Caméra non disponible. Veuillez saisir l'ISBN manuellement.",
+    "permissionDenied": "Accès à la caméra refusé. Veuillez saisir l'ISBN manuellement.",
+    "isbnFound": "ISBN trouvé",
+    "confirmBorrow": "Emprunter ce livre de la boîte",
+    "confirm": "Confirmer",
+    "scanAgain": "Scanner à nouveau"
+  },
   "addBookPage": {
     "instruction": "Scannez ici le code-barres ISBN du livre que vous souhaitez ajouter à la bibliothèque ! Merci :)",
     "enterManually": "Saisir l'ISBN manuellement",
