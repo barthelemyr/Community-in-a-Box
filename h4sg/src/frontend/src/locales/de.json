@@ -1,0 +1,22 @@
+{
+  "library": "Öffentliche Bibliothek Biel",
+  "address": "Adresse",
+  "noBox": "Keine Box-ID gefunden. Bitte scannen Sie den QR-Code an einer Bücherbox.",
+  "boxPhoto": "Gemeinschaftliche Bücherbox",
+  "addBook": "Buch hinzufügen",
+  "borrowBook": "Buch ausleihen",
+  "bookList": "Bücherliste",
+  "bookInfo": "Buchinfos",
+  "games": "Spiele",
+  "help": "Bibliothek unterstützen",
+  "homePage": "Startseite",
+  "comingSoon": "Demnächst verfügbar…",
+  "pages": {
+    "add":    "Buch hinzufügen",
+    "borrow": "Buch ausleihen",
+    "books":  "Bücherliste",
+    "info":   "Buchinfos",
+    "games":  "Spiele",
+    "help":   "Bibliothek unterstützen"
+  }
+}
