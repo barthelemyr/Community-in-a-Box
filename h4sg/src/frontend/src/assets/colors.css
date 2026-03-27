@@ -1,0 +1,23 @@
+/*
+ * Community in a Box — Color Palette
+ *
+ * Defined as Tailwind v4 theme variables.
+ * Each --color-* entry automatically generates utility classes:
+ *   bg-box-yellow, text-box-orange, border-box-teal, etc.
+ */
+
+@theme {
+  /* Page backgrounds */
+  --color-box-yellow:     #F5D85E;   /* Home page */
+  --color-box-purple-bg:  #B8B0E8;   /* Add Book / Borrow Book pages */
+  --color-box-orange-bg:  #E87D4A;   /* Info About Book page */
+  --color-box-cream:      #F0EDE0;   /* Book List / Games / Help pages */
+
+  /* Button fills */
+  --color-box-purple:     #A89FD8;   /* Add Book, Borrow Book buttons */
+  --color-box-orange:     #E87D4A;   /* Book List, Info About Book buttons */
+  --color-box-cream-btn:  #F5F0E0;   /* Games, Help the Library buttons */
+
+  /* Text / accent */
+  --color-box-teal:       #2a7a6e;   /* Library name / confirm action */
+}
