@@ -122,6 +122,13 @@ def list_shelves(db: Session = Depends(get_db)):
     shelves = db.scalars(select(Shelf)).all()
     return shelves
 
+@app.get("/shelves/{shelf_id}", response_model=ShelfResponse)
+def get_shelf_by_id(shelf_id: str, db: Session = Depends(get_db)):
+    shelf = db.get(Shelf, shelf_id)
+    if shelf is None:
+        raise HTTPException(status_code=404, detail="Shelf not found")
+
+    return shelf
 
 @app.get("/books", response_model=list[BookWithShelvesResponse])
 def list_books(db: Session = Depends(get_db)):
