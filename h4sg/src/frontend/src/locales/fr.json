@@ -11,13 +11,14 @@
   "help": "Soutenir la bibliothèque",
   "homePage": "Page d'accueil",
   "comingSoon": "Bientôt disponible…",
+  "backToBox": "Retour à la bibliothèque",
   "pages": {
-    "add":    "Ajouter un livre",
+    "add": "Ajouter un livre",
     "borrow": "Prendre un livre",
-    "books":  "Liste des livres",
-    "info":   "Infos sur un livre",
-    "games":  "Jeux",
-    "help":   "Soutenir la bibliothèque"
+    "books": "Liste des livres",
+    "info": "Infos sur un livre",
+    "games": "Jeux",
+    "help": "Soutenir la bibliothèque"
   },
   "helpPage": {
     "title": "Soutenir la\nbibliothèque",

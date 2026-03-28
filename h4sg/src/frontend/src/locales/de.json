@@ -11,6 +11,7 @@
   "help": "Unterstütze diesen Schrank!",
   "homePage": "Startseite",
   "comingSoon": "Demnächst verfügbar…",
+  "backToBox": "Zurück zum Schrank",
   "pages": {
     "add":    "Buch hinzufügen",
     "borrow": "Buch mitnehmen",
