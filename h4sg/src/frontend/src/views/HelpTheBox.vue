@@ -7,12 +7,7 @@
       <!-- Title + count row -->
       <div class="flex items-start justify-between gap-3">
         <div class="min-w-0">
-          <h2
-            class="font-black uppercase tracking-wide leading-tight"
-            style="color: #E87D4A; font-size: clamp(1.4rem, 6vw, 2.2rem);"
-          >
-            {{ t('helpPage.title') }}
-          </h2>
+          <FitTitle tag="h2" :max="36" style="color: #E87D4A;">{{ t('helpPage.title') }}</FitTitle>
           <p class="text-xs text-gray-500 mt-1">{{ t('helpPage.thankYou') }}</p>
         </div>
         <div class="text-right flex-shrink-0 pt-1">
@@ -99,6 +94,7 @@ import { useRoute } from 'vue-router'
 import { BrowserMultiFormatReader } from '@zxing/browser'
 import { BarcodeFormat, DecodeHintType } from '@zxing/library'
 import { useLocale } from '../composables/useLocale.js'
+import FitTitle from '../components/FitTitle.vue'
 
 const route = useRoute()
 const boxId = route.params.id

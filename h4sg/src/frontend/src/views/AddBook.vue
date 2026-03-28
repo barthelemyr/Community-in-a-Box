@@ -3,13 +3,8 @@
     <div class="flex-1 flex flex-col lg:flex-row items-center lg:items-start gap-6 px-6 pb-10 lg:px-12">
 
       <!-- Left: page title -->
-      <div class="lg:flex-1 flex items-center lg:items-start lg:pt-8">
-        <h1
-          class="text-white font-black uppercase leading-none"
-          style="font-size: clamp(2.5rem, 12vw, 5rem); letter-spacing: 0.06em;"
-        >
-          ADD A<br>BOOK
-        </h1>
+      <div class="w-full lg:flex-1 flex items-center lg:items-start lg:pt-8">
+        <FitTitle class="text-white" style="letter-spacing: 0.06em;">ADD A<br>BOOK</FitTitle>
       </div>
 
       <!-- Right: scanner area -->
@@ -55,14 +50,17 @@
             <div class="flex gap-3 w-full">
               <button
                 @click="confirmAdd"
-                class="flex-1 rounded-2xl py-4 font-bold uppercase tracking-wider text-white hover:opacity-90 active:scale-95 transition-all"
+                :disabled="submitting"
+                class="flex-1 rounded-2xl py-4 font-bold uppercase tracking-wider text-white hover:opacity-90 active:scale-95 transition-all disabled:opacity-50"
                 style="background-color: #2a7a6e;"
-              >{{ t('addBookPage.confirm') }}</button>
+              >{{ submitting ? '…' : t('addBookPage.confirm') }}</button>
               <button
                 @click="resetScanner"
-                class="flex-1 rounded-2xl py-4 font-bold uppercase tracking-wider text-gray-800 border-2 border-gray-800 hover:bg-white/30 active:scale-95 transition-all"
+                :disabled="submitting"
+                class="flex-1 rounded-2xl py-4 font-bold uppercase tracking-wider text-gray-800 border-2 border-gray-800 hover:bg-white/30 active:scale-95 transition-all disabled:opacity-50"
               >{{ t('addBookPage.scanAgain') }}</button>
             </div>
+            <p v-if="submitError" class="text-red-800 font-semibold text-sm text-center">{{ submitError }}</p>
           </div>
 
           <!-- State: camera error / permission denied -->
@@ -119,6 +117,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { BrowserMultiFormatReader } from '@zxing/browser'
 import { BarcodeFormat, DecodeHintType } from '@zxing/library'
 import { useLocale } from '../composables/useLocale.js'
+import FitTitle from '../components/FitTitle.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -132,6 +131,8 @@ const state = ref('scanning')
 const scannedIsbn = ref('')
 const manualIsbn = ref('')
 const cameraError = ref('')
+const submitting = ref(false)
+const submitError = ref('')
 
 let reader = null
 
@@ -199,15 +200,23 @@ function submitManual() {
   state.value = 'found'
 }
 
-function confirmAdd() {
-  // TODO: POST to backend API /boxes/{boxId}/books with { isbn: scannedIsbn }
-  console.log(`Adding ISBN ${scannedIsbn.value} to box ${boxId}`)
-  goHome()
+async function confirmAdd() {
+  submitting.value = true
+  submitError.value = ''
+  const isbn = scannedIsbn.value.replace(/[\s-]/g, '')
+  try {
+    const res = await fetch(`/api/shelves/${boxId}/books/${isbn}`, { method: 'PUT' })
+    if (!res.ok) throw new Error(res.status)
+    goHome()
+  } catch {
+    submitError.value = t('addBookPage.submitError')
+    submitting.value = false
+  }
 }
 
 function goHome() {
   stopScanner()
-  router.push({ name: 'home', params: { id: boxId } })
+  router.push({ name: 'boxHome', params: { id: boxId } })
 }
 
 onMounted(() => startScanner())
