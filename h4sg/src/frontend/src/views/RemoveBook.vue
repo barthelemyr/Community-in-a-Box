@@ -1,13 +1,5 @@
 <template>
   <div class="page-purple">
-
-    <!-- Home page link -->
-    <div class="p-4">
-      <button @click="goHome" class="home-link">
-        {{ t('homePage') }}
-      </button>
-    </div>
-
     <div class="flex-1 flex flex-col lg:flex-row items-center lg:items-start gap-6 px-6 pb-10 lg:px-12">
 
       <!-- Left: page title -->
