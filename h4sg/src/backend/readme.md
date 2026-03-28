@@ -10,3 +10,10 @@ pip install -r requirements.txt
 ```
 fastapi dev
 ```
+
+# Initialize database
+```
+sqlite3 .\library.db
+.read insert.sql
+.quit
+```
