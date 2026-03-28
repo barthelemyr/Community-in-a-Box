@@ -1,13 +1,12 @@
 <template>
   <div class="min-h-screen flex flex-col px-5 pb-10 pt-4 gap-4">
-
     <!-- Title + count -->
     <div class="flex items-start justify-between gap-4">
       <div class="min-w-0 flex-1">
-        <FitTitle style="color: #E87D4A;">{{ t('bookList') }}</FitTitle>
+        <FitTitle style="color: #e87d4a">{{ t('bookList') }}</FitTitle>
       </div>
       <div class="text-right flex-shrink-0 pt-1">
-        <span class="font-black text-3xl" style="color: #2a7a6e;">{{ books.length }}</span>
+        <span class="font-black text-3xl" style="color: #2a7a6e">{{ books.length }}</span>
         <p class="text-xs font-medium text-gray-500 leading-tight">{{ t('bookListPage.total') }}</p>
       </div>
     </div>
@@ -22,7 +21,9 @@
 
     <!-- Loading -->
     <div v-if="loading" class="flex-1 flex items-center justify-center">
-      <div class="w-10 h-10 border-4 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+      <div
+        class="w-10 h-10 border-4 border-gray-400 border-t-transparent rounded-full animate-spin"
+      ></div>
     </div>
 
     <!-- Error -->
@@ -33,7 +34,8 @@
     <!-- Book list -->
     <ul v-else class="flex flex-col gap-2">
       <li
-        v-for="book in filteredBooks" :key="book.isbn"
+        v-for="book in filteredBooks"
+        :key="book.isbn"
         class="bg-white/60 rounded-xl px-4 py-3 flex items-start gap-3"
       >
         <div class="min-w-0 flex-1">
@@ -52,7 +54,6 @@
         {{ t('bookListPage.noResults') }}
       </li>
     </ul>
-
   </div>
 </template>
 
@@ -61,10 +62,12 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLocale } from '../composables/useLocale.js'
 import FitTitle from '../components/FitTitle.vue'
+import { useBoxStore } from '@/store/index.js'
 
 const route = useRoute()
 const { t } = useLocale()
 const boxId = route.params.id
+const boxStore = useBoxStore()
 
 const books = ref([])
 const loading = ref(true)
@@ -72,19 +75,27 @@ const error = ref('')
 const searchTerm = ref('')
 
 onMounted(async () => {
+  loading.value = true
+  error.value = ''
+
   try {
-    const res = await fetch(`/api/shelves/${boxId}/books`)
-    if (!res.ok) throw new Error()
-    books.value = await res.json()
-  } catch {
-    error.value = t('bookListPage.loadError')
+    const fetchedBooks = await boxStore.fetchBoxBooksById(boxId)
+
+    if (fetchedBooks) {
+      books.value = fetchedBooks
+    }
+  } catch (err) {
+    error.value = 'Failed to load books.'
+    console.error(err)
   } finally {
     loading.value = false
   }
 })
 
 const filteredBooks = computed(() => {
+  console.log(books.value)
   if (!searchTerm.value.trim()) return books.value
+
   const q = searchTerm.value.toLowerCase()
   return books.value.filter(
     (b) =>
@@ -96,7 +107,11 @@ const filteredBooks = computed(() => {
 
 function formatDate(dt) {
   if (!dt) return '—'
-  return new Date(dt).toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: '2-digit' })
+  return new Date(dt).toLocaleDateString(undefined, {
+    day: '2-digit',
+    month: '2-digit',
+    year: '2-digit',
+  })
 }
 
 function isOld(dt) {

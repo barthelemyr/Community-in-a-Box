@@ -17,7 +17,7 @@ export const useBoxStore = defineStore('boxStore', {
   },
 
   actions: {
-    async fetchBoxById(id) {
+    async fetchBoxBooksById(id) {
       const existingBox = this.boxes.find((box) => box.id == id)
 
       if (existingBox) {
