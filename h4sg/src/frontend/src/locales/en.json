@@ -57,7 +57,8 @@
     "author": "Author",
     "publisher": "Publisher",
     "published": "Published",
-    "scanAgain": "Scan again"
+    "scanAgain": "Scan again",
+    "moreInfo": "Tap for more info"
   },
   "helpPage": {
     "title": "Help The\nLibrary",

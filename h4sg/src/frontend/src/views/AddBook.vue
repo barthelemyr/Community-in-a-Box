@@ -135,6 +135,7 @@ const submitting = ref(false)
 const submitError = ref('')
 
 let reader = null
+let handled = false
 
 // ZXing hints: only look for EAN-13 and EAN-8 (ISBN formats)
 const hints = new Map()
@@ -142,15 +143,17 @@ hints.set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.EAN_13, BarcodeFormat.
 hints.set(DecodeHintType.TRY_HARDER, true)
 
 async function startScanner() {
+  handled = false
   state.value = 'scanning'
   try {
     reader = new BrowserMultiFormatReader(hints)
     // Use the rear camera on phones (facingMode: environment)
     await reader.decodeFromConstraints(
-      { video: { facingMode: 'environment' } },
+      { video: { facingMode: 'environment', advanced: [{ focusMode: 'continuous' }] } },
       videoEl.value,
       (result, err) => {
-        if (result) {
+        if (result && !handled) {
+          handled = true
           scannedIsbn.value = result.getText()
           stopScanner()
           state.value = 'found'

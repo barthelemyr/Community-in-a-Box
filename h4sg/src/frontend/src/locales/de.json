@@ -82,7 +82,8 @@
     "author": "Autor",
     "publisher": "Verlag",
     "published": "Erschienen",
-    "scanAgain": "Erneut scannen"
+    "scanAgain": "Erneut scannen",
+    "moreInfo": "Tippen für mehr Infos"
   },
   "bookListPage": {
     "total": "Bücher",
