@@ -19,6 +19,30 @@
     "games":  "Spiele",
     "help":   "Bibliothek unterstützen"
   },
+  "gamesHub": {
+    "title": "Spiele",
+    "subtitle": "Helfen Sie der Bibliothek und haben Sie dabei Spaß!",
+    "findForgotten": "Die vergessenen Bücher finden",
+    "findForgottenDesc": "10 Bücher wurden lange nicht mehr gesehen. Können Sie sie alle finden?",
+    "play": "Spielen",
+    "comingSoon": "Demnächst"
+  },
+  "findForgotten": {
+    "briefingTitle": "Ihre Mission",
+    "briefingDesc": "Finden und scannen Sie diese 10 Bücher in der Box. Jeder Scan aktualisiert die Bibliothek!",
+    "startGame": "Los!",
+    "found": "gefunden",
+    "of": "von",
+    "scanning": "Scannen…",
+    "alreadyFound": "Bereits gefunden!",
+    "notInList": "Nicht auf der Liste — weitersuchen!",
+    "finishedTitle": "Mission erfüllt!",
+    "finishedDesc": "Sie haben {found} von {total} Büchern gefunden.",
+    "timeTaken": "Zeit",
+    "playAgain": "Nochmal spielen",
+    "giveUp": "Aufgeben",
+    "lastSeen": "Zuletzt gesehen"
+  },
   "infoPage": {
     "instruction": "Scannen Sie den ISBN-Barcode des Buches, über das Sie mehr erfahren möchten!",
     "enterManually": "ISBN manuell eingeben",
