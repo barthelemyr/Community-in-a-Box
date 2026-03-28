@@ -1,0 +1,46 @@
+<template>
+  <div class="w-full mb-4">
+    <div class="relative">
+      <div class="absolute inset-y-0 flex items-center pl-3 pointer-events-none">
+        <svg
+          class="w-4 h-4 text-gray-500"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 20 20"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+          />
+        </svg>
+      </div>
+
+      <input
+        type="search"
+        v-model="searchQuery"
+        @input="emitSearch"
+        class="block w-full p-4 pl-10 text-sm text-gray-900 rounded-2xl bg-white"
+        placeholder="Search books..."
+      />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+// 1. Create a reactive variable to store what the user types
+const searchQuery = ref('')
+
+// 2. Define the event we will send to the parent component
+const emit = defineEmits(['search'])
+
+// 3. Emit the current search term every time the user types a letter
+function emitSearch() {
+  emit('search', searchQuery.value)
+}
+</script>
