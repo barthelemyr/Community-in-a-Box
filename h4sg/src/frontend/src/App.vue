@@ -8,7 +8,7 @@
             @click="goHome"
             class="font-bold underline text-gray-800 hover:opacity-70 transition-opacity"
           >
-            {{ t('Homepage') }}
+            {{ t('homePage') }}
           </button>
         </div>
         <nav class="flex items-center gap-1 font-bold text-sm text-gray-900">
