@@ -183,7 +183,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { BrowserMultiFormatReader } from '@zxing/browser'
 import { BarcodeFormat, DecodeHintType } from '@zxing/library'
@@ -198,22 +198,29 @@ const { t } = useLocale()
 // 'hub' | 'briefing' | 'playing' | 'finished'
 const screen = ref('hub')
 
-// ── Mock data — replace with GET /boxes/{id}/books?sort=oldest&limit=10 ──
-const MOCK_BOOKS = [
-  { isbn: '9780140328721', title: 'Fantastic Mr Fox',       author: 'Roald Dahl',          lastSeen: '2025-10-03' },
-  { isbn: '9780743273565', title: 'The Great Gatsby',       author: 'F. Scott Fitzgerald',  lastSeen: '2025-09-15' },
-  { isbn: '9780061996085', title: 'To Kill a Mockingbird',  author: 'Harper Lee',           lastSeen: '2025-11-01' },
-  { isbn: '9780451524935', title: '1984',                   author: 'George Orwell',        lastSeen: '2025-08-22' },
-  { isbn: '9780307474278', title: 'The Road',               author: 'Cormac McCarthy',      lastSeen: '2025-10-30' },
-  { isbn: '9780316769174', title: 'The Catcher in the Rye', author: 'J.D. Salinger',        lastSeen: '2025-09-05' },
-  { isbn: '9780385490818', title: 'The Handmaid\'s Tale',   author: 'Margaret Atwood',      lastSeen: '2025-11-18' },
-  { isbn: '9780062315007', title: 'The Alchemist',          author: 'Paulo Coelho',         lastSeen: '2025-07-14' },
-  { isbn: '9780679720201', title: 'The Stranger',           author: 'Albert Camus',         lastSeen: '2025-10-09' },
-  { isbn: '9780140449136', title: 'Crime and Punishment',   author: 'Fyodor Dostoevsky',    lastSeen: '2025-08-01' },
-]
-
 // target books with reactive `found` flag
 const targetBooks = ref([])
+const loadError = ref('')
+
+async function loadOldestBooks() {
+  loadError.value = ''
+  try {
+    const res = await fetch(`/api/shelves/${boxId}/books`)
+    if (!res.ok) throw new Error()
+    const all = await res.json()
+    // API returns newest first — take last 10 (oldest)
+    const oldest = all.slice(-10)
+    targetBooks.value = oldest.map((b) => ({
+      isbn: b.isbn,
+      title: b.title,
+      author: b.author ?? '',
+      lastSeen: b.last_scanned ? new Date(b.last_scanned).toLocaleDateString() : '—',
+      found: false,
+    }))
+  } catch {
+    loadError.value = true
+  }
+}
 
 const upcomingGames = ['Author Hunt', 'Count the Box']
 
@@ -280,7 +287,7 @@ function stopScanner() {
 // ── Game logic ─────────────────────────────────────────────────────
 const foundCount = computed(() => targetBooks.value.filter((b) => b.found).length)
 
-function handleScan(isbn) {
+async function handleScan(isbn) {
   const book = targetBooks.value.find((b) => b.isbn === isbn)
   if (!book) {
     showFeedback(t('findForgotten.notInList'), 'error')
@@ -291,19 +298,19 @@ function handleScan(isbn) {
     return
   }
   book.found = true
-  // TODO: POST /boxes/{boxId}/books/{isbn}/seen  — update timestamp in backend
   showFeedback(`✓ ${book.title}`, 'success')
+  const normalized = isbn.replace(/[\s-]/g, '')
+  await fetch(`/api/shelves/${boxId}/books/${normalized}`, { method: 'PUT' })
 
   if (foundCount.value === targetBooks.value.length) {
     finishGame()
   }
 }
 
-function startBriefing() {
+async function startBriefing() {
   stopScanner()
   stopTimer()
-  // Reset books with found = false
-  targetBooks.value = MOCK_BOOKS.map((b) => ({ ...b, found: false }))
+  await loadOldestBooks()
   screen.value = 'briefing'
 }
 

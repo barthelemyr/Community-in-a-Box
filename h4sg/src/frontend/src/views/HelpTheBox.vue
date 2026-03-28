@@ -146,15 +146,16 @@ function stopScanner() {
   }
 }
 
-function handleScan(isbn) {
+async function handleScan(isbn) {
   const alreadyScanned = scannedList.value.some((b) => b.isbn === isbn)
   if (alreadyScanned) {
     showFeedback(t('helpPage.alreadyScanned'), 'warn')
     return
   }
   scannedList.value.push({ isbn })
-  // TODO: POST /boxes/{boxId}/books/{isbn}/seen
   showFeedback(`✓ ${isbn}`, 'success')
+  const normalized = isbn.replace(/[\s-]/g, '')
+  await fetch(`/api/shelves/${boxId}/books/${normalized}`, { method: 'PUT' })
 }
 
 function finish() {

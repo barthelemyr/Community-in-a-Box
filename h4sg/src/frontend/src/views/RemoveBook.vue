@@ -45,13 +45,14 @@
               {{ t('borrowPage.confirmBorrow') }} №{{ boxId }}
             </p>
             <div class="flex gap-3 w-full">
-              <button @click="confirmBorrow" class="btn-confirm flex-1">
-                {{ t('borrowPage.confirm') }}
+              <button @click="confirmBorrow" :disabled="submitting" class="btn-confirm flex-1 disabled:opacity-50">
+                {{ submitting ? '…' : t('borrowPage.confirm') }}
               </button>
-              <button @click="resetScanner" class="btn-outline flex-1">
+              <button @click="resetScanner" :disabled="submitting" class="btn-outline flex-1 disabled:opacity-50">
                 {{ t('borrowPage.scanAgain') }}
               </button>
             </div>
+            <p v-if="submitError" class="text-red-800 font-semibold text-sm text-center">{{ submitError }}</p>
           </div>
 
           <!-- State: camera error -->
@@ -118,6 +119,8 @@ const state = ref('scanning')
 const scannedIsbn = ref('')
 const manualIsbn = ref('')
 const cameraError = ref('')
+const submitting = ref(false)
+const submitError = ref('')
 
 let reader = null
 
@@ -180,15 +183,23 @@ function submitManual() {
   state.value = 'found'
 }
 
-function confirmBorrow() {
-  // TODO: POST to backend API /boxes/{boxId}/books/{isbn}/borrow
-  console.log(`Borrowing ISBN ${scannedIsbn.value} from box ${boxId}`)
-  goHome()
+async function confirmBorrow() {
+  submitting.value = true
+  submitError.value = ''
+  const isbn = scannedIsbn.value.replace(/[\s-]/g, '')
+  try {
+    const res = await fetch(`/api/shelves/${boxId}/books/${isbn}`, { method: 'DELETE' })
+    if (!res.ok) throw new Error(res.status)
+    goHome()
+  } catch {
+    submitError.value = t('borrowPage.submitError')
+    submitting.value = false
+  }
 }
 
 function goHome() {
   stopScanner()
-  router.push({ name: 'home', params: { id: boxId } })
+  router.push({ name: 'boxHome', params: { id: boxId } })
 }
 
 onMounted(() => startScanner())

@@ -20,6 +20,12 @@
     "games": "Games",
     "help": "Help The Library"
   },
+  "bookListPage": {
+    "total": "books",
+    "search": "Search by title, author or ISBN…",
+    "noResults": "No books found.",
+    "loadError": "Could not load books. Please try again."
+  },
   "borrowPage": {
     "instruction": "Scan the ISBN barcode of the book you want to borrow from the library here! Thank you :)",
     "enterManually": "Enter ISBN Manually",
@@ -33,7 +39,8 @@
     "isbnFound": "ISBN found",
     "confirmBorrow": "Borrow this book from Box",
     "confirm": "Confirm",
-    "scanAgain": "Scan again"
+    "scanAgain": "Scan again",
+    "submitError": "Something went wrong. Please try again."
   },
   "infoPage": {
     "instruction": "Scan the ISBN barcode of the book you want more information about!",
@@ -112,6 +119,7 @@
     "isbnFound": "ISBN found",
     "confirmAdd": "Add this book to Box",
     "confirm": "Confirm",
-    "scanAgain": "Scan again"
+    "scanAgain": "Scan again",
+    "submitError": "Something went wrong. Please try again."
   }
 }

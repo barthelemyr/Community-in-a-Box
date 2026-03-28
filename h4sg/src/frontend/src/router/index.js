@@ -4,7 +4,7 @@ import AddBook from '../views/AddBook.vue'
 import BookList from '@/views/BookList.vue'
 import RemoveBook from '../views/RemoveBook.vue'
 import InfoAboutBook from '../views/InfoAboutBook.vue'
-import Home from '@/views/Home.vue'
+import HomeView from '@/views/HomeView.vue'
 import BoxActions from '@/views/BoxActions.vue'
 import Games from '@/views/Games.vue'
 import HelpTheBox from '@/views/HelpTheBox.vue'
@@ -12,7 +12,7 @@ import HelpTheBox from '@/views/HelpTheBox.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', name: 'home', component: Home, meta: { bgClass: 'page-cream' } },
+    { path: '/', name: 'home', component: HomeView, meta: { bgClass: 'page-cream' } },
 
     // Box home — QR code points here: /box/4
     {
