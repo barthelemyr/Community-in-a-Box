@@ -4,7 +4,7 @@
     <!-- ── HUB: pick a game ───────────────────────────────────────── -->
     <div v-if="screen === 'hub'" class="flex-1 flex flex-col gap-6 pt-4">
       <div>
-        <h1 class="page-title" style="color: #E87D4A;">{{ t('gamesHub.title') }}</h1>
+        <FitTitle style="color: #E87D4A;">{{ t('gamesHub.title') }}</FitTitle>
         <p class="text-gray-600 font-medium mt-1">{{ t('gamesHub.subtitle') }}</p>
       </div>
 
@@ -42,7 +42,7 @@
     <!-- ── BRIEFING: show the list before starting ────────────────── -->
     <div v-else-if="screen === 'briefing'" class="flex-1 flex flex-col gap-5 pt-4">
       <div>
-        <h1 class="page-title-sub" style="color: #E87D4A;">{{ t('findForgotten.briefingTitle') }}</h1>
+        <FitTitle style="color: #E87D4A;">{{ t('findForgotten.briefingTitle') }}</FitTitle>
         <p class="text-gray-700 mt-2 font-medium">{{ t('findForgotten.briefingDesc') }}</p>
       </div>
 
@@ -141,7 +141,7 @@
     <!-- ── FINISHED: results ──────────────────────────────────────── -->
     <div v-else-if="screen === 'finished'" class="flex-1 flex flex-col items-center justify-center gap-6 py-8">
       <div class="text-center">
-        <h1 class="page-title-sub" style="color: #E87D4A;">{{ t('findForgotten.finishedTitle') }}</h1>
+        <FitTitle style="color: #E87D4A;">{{ t('findForgotten.finishedTitle') }}</FitTitle>
         <p class="text-gray-700 mt-2 font-medium text-lg">
           {{ t('findForgotten.finishedDesc').replace('{found}', foundCount).replace('{total}', targetBooks.length) }}
         </p>
@@ -188,6 +188,7 @@ import { useRoute } from 'vue-router'
 import { BrowserMultiFormatReader } from '@zxing/browser'
 import { BarcodeFormat, DecodeHintType } from '@zxing/library'
 import { useLocale } from '../composables/useLocale.js'
+import FitTitle from '../components/FitTitle.vue'
 
 const route = useRoute()
 const boxId = route.params.id

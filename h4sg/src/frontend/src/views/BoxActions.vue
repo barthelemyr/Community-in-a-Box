@@ -15,17 +15,13 @@
       <div class="flex-1 flex flex-col gap-4 w-full">
         <!-- Box title & address -->
         <div>
-          <h1
-            class="text-white font-black uppercase leading-none"
-            style="font-size: clamp(3rem, 15vw, 7rem); letter-spacing: 0.04em"
-          >
-            BOX №{{ boxId }}
-          </h1>
+          <FitTitle class="text-white" style="letter-spacing: 0.04em;">{{ boxTitle }}</FitTitle>
           <p
+            v-if="boxAddress"
             class="font-black uppercase tracking-wider text-gray-800 mt-1"
             style="font-size: clamp(0.85rem, 3.5vw, 1.2rem)"
           >
-            {{ t('address') }}: {{ boxAddress }}
+            {{ boxAddress }}
           </p>
         </div>
 
@@ -95,14 +91,33 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useLocale } from '../composables/useLocale.js'
+import FitTitle from '../components/FitTitle.vue'
 
 const route = useRoute()
 const router = useRouter()
 const { t } = useLocale()
 
 const boxId = ref(null)
+const boxTitle = ref('')
 const boxAddress = ref('')
 const error = ref(null)
+
+async function reverseGeocode(lat, lon) {
+  try {
+    const res = await fetch(`https://photon.komoot.io/reverse?lat=${lat}&lon=${lon}`)
+    if (!res.ok) return ''
+    const data = await res.json()
+    const p = data.features?.[0]?.properties
+    if (!p) return ''
+    const parts = [
+      p.street && p.housenumber ? `${p.street} ${p.housenumber}` : p.street,
+      p.postcode && p.city ? `${p.postcode} ${p.city}` : p.city,
+    ].filter(Boolean)
+    return parts.join(', ')
+  } catch {
+    return ''
+  }
+}
 
 onMounted(async () => {
   const id = route.params.id
@@ -115,7 +130,8 @@ onMounted(async () => {
     const res = await fetch(`/api/shelves/${id}`)
     if (!res.ok) throw new Error()
     const shelf = await res.json()
-    boxAddress.value = shelf.name
+    boxTitle.value = shelf.name
+    boxAddress.value = await reverseGeocode(shelf.latitude, shelf.longitude)
   } catch {
     error.value = t('noBox')
   }
