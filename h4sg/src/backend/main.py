@@ -3,16 +3,17 @@ from datetime import datetime, timezone
 import requests
 from fastapi import Depends, FastAPI, HTTPException, Response, status
 from sqlalchemy import select
-from sqlalchemy.orm import Session, selectinload
+from sqlalchemy.orm import Session
 
 from database import Base, SessionLocal, engine
 from models import Book, Shelf, ShelfBook
 from schemas import (
     BookResponse,
-    BookWithShelvesResponse,
+    ShelfBookResponse,
+    ShelfBooksGroupResponse,
     ShelfCreate,
     ShelfResponse,
-    ShelfSimpleResponse,
+    ShelfWithBooksResponse,
 )
 
 app = FastAPI()
@@ -75,21 +76,22 @@ def fetch_book_from_openlibrary(isbn: str) -> dict | None:
     }
 
 
-def build_book_with_shelves_response(book: Book) -> BookWithShelvesResponse:
-    shelves = [
-        ShelfSimpleResponse(
-            id=shelf_book.shelf.id,
-            name=shelf_book.shelf.name,
-        )
-        for shelf_book in book.shelf_books
-    ]
-
-    return BookWithShelvesResponse(
+def build_book_response(book: Book) -> BookResponse:
+    return BookResponse(
         isbn=book.isbn,
         title=book.title,
         author=book.author,
         publisher=book.publisher,
-        shelves=shelves,
+    )
+
+
+def build_shelf_book_response(book: Book, last_scanned: datetime) -> ShelfBookResponse:
+    return ShelfBookResponse(
+        isbn=book.isbn,
+        title=book.title,
+        author=book.author,
+        publisher=book.publisher,
+        last_scanned=last_scanned,
     )
 
 
@@ -122,6 +124,79 @@ def list_shelves(db: Session = Depends(get_db)):
     shelves = db.scalars(select(Shelf)).all()
     return shelves
 
+
+@app.get("/shelves/books", response_model=list[ShelfWithBooksResponse])
+def list_books_grouped_by_shelves(db: Session = Depends(get_db)):
+    shelves = db.scalars(select(Shelf).order_by(Shelf.name)).all()
+
+    shelf_books = db.scalars(
+        select(ShelfBook)
+        .join(Book, Book.isbn == ShelfBook.isbn)
+        .order_by(ShelfBook.shelf_id, Book.title, Book.isbn)
+    ).all()
+
+    books_by_shelf: dict[str, list[ShelfBookResponse]] = {shelf.id: [] for shelf in shelves}
+    books_by_isbn: dict[str, Book] = {
+        book.isbn: book for book in db.scalars(select(Book)).all()
+    }
+
+    for shelf_book in shelf_books:
+        book = books_by_isbn.get(shelf_book.isbn)
+        if book is None:
+            continue
+
+        books_by_shelf[shelf_book.shelf_id].append(
+            build_shelf_book_response(book, shelf_book.last_scanned)
+        )
+
+    return [
+        ShelfWithBooksResponse(
+            id=shelf.id,
+            name=shelf.name,
+            latitude=shelf.latitude,
+            longitude=shelf.longitude,
+            books=books_by_shelf.get(shelf.id, []),
+        )
+        for shelf in shelves
+    ]
+
+
+@app.get("/shelves/books/{isbn}", response_model=list[ShelfBooksGroupResponse])
+def list_shelf_occurrences_for_book(isbn: str, db: Session = Depends(get_db)):
+    normalized_isbn = normalize_isbn(isbn)
+
+    shelf_books = db.scalars(
+        select(ShelfBook)
+        .where(ShelfBook.isbn == normalized_isbn)
+        .order_by(ShelfBook.shelf_id)
+    ).all()
+
+    if not shelf_books:
+        return []
+
+    shelves_by_id: dict[str, Shelf] = {
+        shelf.id: shelf for shelf in db.scalars(select(Shelf)).all()
+    }
+
+    result: list[ShelfBooksGroupResponse] = []
+    for shelf_book in shelf_books:
+        shelf = shelves_by_id.get(shelf_book.shelf_id)
+        if shelf is None:
+            continue
+
+        result.append(
+            ShelfBooksGroupResponse(
+                id=shelf.id,
+                name=shelf.name,
+                latitude=shelf.latitude,
+                longitude=shelf.longitude,
+                last_scanned=shelf_book.last_scanned,
+            )
+        )
+
+    return result
+
+
 @app.get("/shelves/{shelf_id}", response_model=ShelfResponse)
 def get_shelf_by_id(shelf_id: str, db: Session = Depends(get_db)):
     shelf = db.get(Shelf, shelf_id)
@@ -130,58 +205,66 @@ def get_shelf_by_id(shelf_id: str, db: Session = Depends(get_db)):
 
     return shelf
 
-@app.get("/books", response_model=list[BookWithShelvesResponse])
+
+@app.get("/books", response_model=list[BookResponse])
 def list_books(db: Session = Depends(get_db)):
     books = db.scalars(
-        select(Book).options(
-            selectinload(Book.shelf_books).selectinload(ShelfBook.shelf)
-        )
+        select(Book).order_by(Book.title, Book.isbn)
     ).all()
 
-    return [build_book_with_shelves_response(book) for book in books]
+    return [build_book_response(book) for book in books]
 
 
-@app.get("/books/{isbn}", response_model=BookWithShelvesResponse)
+@app.get("/books/{isbn}", response_model=BookResponse)
 def get_book_by_isbn(isbn: str, db: Session = Depends(get_db)):
     normalized_isbn = normalize_isbn(isbn)
 
-    book = db.scalar(
-        select(Book)
-        .where(Book.isbn == normalized_isbn)
-        .options(
-            selectinload(Book.shelf_books).selectinload(ShelfBook.shelf)
-        )
-    )
+    book = db.get(Book, normalized_isbn)
 
     if book is None:
         raise HTTPException(status_code=404, detail="Book not found")
 
-    return build_book_with_shelves_response(book)
+    return build_book_response(book)
 
 
-@app.get("/shelves/{shelf_id}/books", response_model=list[BookResponse])
-def list_books_for_shelf(shelf_id: int, db: Session = Depends(get_db)):
+@app.get("/shelves/{shelf_id}/books", response_model=list[ShelfBookResponse])
+def list_books_for_shelf(shelf_id: str, db: Session = Depends(get_db)):
     shelf = db.get(Shelf, shelf_id)
     if shelf is None:
         raise HTTPException(status_code=404, detail="Shelf not found")
 
-    books = db.scalars(
-        select(Book)
-        .join(ShelfBook, ShelfBook.isbn == Book.isbn)
+    shelf_books = db.scalars(
+        select(ShelfBook)
         .where(ShelfBook.shelf_id == shelf_id)
+        .order_by(ShelfBook.last_scanned.desc())
     ).all()
 
-    return books
+    if not shelf_books:
+        return []
+
+    books_by_isbn: dict[str, Book] = {
+        book.isbn: book
+        for book in db.scalars(
+            select(Book).where(Book.isbn.in_([shelf_book.isbn for shelf_book in shelf_books]))
+        ).all()
+    }
+
+    return [
+        build_shelf_book_response(books_by_isbn[shelf_book.isbn], shelf_book.last_scanned)
+        for shelf_book in shelf_books
+        if shelf_book.isbn in books_by_isbn
+    ]
 
 
-@app.put("/shelves/{shelf_id}/books/{isbn}", response_model=BookResponse)
+@app.put("/shelves/{shelf_id}/books/{isbn}", response_model=ShelfBookResponse)
 def add_or_update_book_in_shelf(
-    shelf_id: int,
+    shelf_id: str,
     isbn: str,
     response: Response,
     db: Session = Depends(get_db),
 ):
     normalized_isbn = normalize_isbn(isbn)
+    scanned_at = datetime.now(timezone.utc)
 
     shelf = db.get(Shelf, shelf_id)
     if shelf is None:
@@ -215,21 +298,23 @@ def add_or_update_book_in_shelf(
         shelf_book = ShelfBook(
             shelf_id=shelf_id,
             isbn=normalized_isbn,
-            last_scanned=datetime.now(timezone.utc),
+            last_scanned=scanned_at,
         )
         db.add(shelf_book)
         response.status_code = status.HTTP_201_CREATED
     else:
-        shelf_book.last_scanned = datetime.now(timezone.utc)
+        shelf_book.last_scanned = scanned_at
         response.status_code = status.HTTP_200_OK
 
     db.commit()
     db.refresh(book)
-    return book
+    db.refresh(shelf_book)
+
+    return build_shelf_book_response(book, shelf_book.last_scanned)
 
 
 @app.delete("/shelves/{shelf_id}/books/{isbn}", status_code=status.HTTP_204_NO_CONTENT)
-def borrow_book_from_shelf(shelf_id: int, isbn: str, db: Session = Depends(get_db)):
+def borrow_book_from_shelf(shelf_id: str, isbn: str, db: Session = Depends(get_db)):
     normalized_isbn = normalize_isbn(isbn)
 
     shelf = db.get(Shelf, shelf_id)

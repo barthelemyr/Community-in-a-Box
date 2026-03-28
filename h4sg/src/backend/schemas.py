@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, ConfigDict
 
 
@@ -16,11 +18,6 @@ class ShelfResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-class ShelfSimpleResponse(BaseModel):
-    id: str
-    name: str
-
-
 class BookResponse(BaseModel):
     isbn: str
     title: str
@@ -30,9 +27,31 @@ class BookResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-class BookWithShelvesResponse(BaseModel):
+class ShelfBookResponse(BaseModel):
     isbn: str
     title: str
     author: str | None
     publisher: str | None
-    shelves: list[ShelfSimpleResponse]
+    last_scanned: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ShelfWithBooksResponse(BaseModel):
+    id: str
+    name: str
+    latitude: float
+    longitude: float
+    books: list[ShelfBookResponse]
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ShelfBooksGroupResponse(BaseModel):
+    id: str
+    name: str
+    latitude: float
+    longitude: float
+    last_scanned: datetime
+
+    model_config = ConfigDict(from_attributes=True)
