@@ -1,9 +1,9 @@
 INSERT INTO shelves (id, name, latitude, longitude) VALUES
-('ccef5ddacf7de2b8','Schronk! - Bootshafen', 47.1339, 7.2468),
-('a46dab2437d8e08c','Schronk! - Beaumont-Quartier', 47.1450, 7.2570),
-('e6b50663cd00c0b6','Schronk! - Stadtpark', 47.1386, 7.2462),
-('3563845eeba2410f','Schronk! - Neues Museum Biel', 47.1379, 7.2469),
-('8d3f1fe452e25e54','Schronk! - Arthur-Villard-Promenade', 47.1326, 7.2408);
+('ccef5ddacf7de2b8','Schronk! - Bootshafen', 47.13193457771374, 7.235375308019313),
+('a46dab2437d8e08c','Schronk! - Beaumont-Quartier', 47.14075880706449, 7.240154607836908),
+('e6b50663cd00c0b6','Schronk! - Stadtpark', 47.140902800688835, 7.254493915070689),
+('3563845eeba2410f','Schronk! - Neues Museum Biel', 47.13916365271485, 7.242674107319091),
+('8d3f1fe452e25e54','Schronk! - Arthur-Villard-Promenade', 47.14604894797752, 7.270687449948917);
 
 /*
 INSERT INTO books (isbn, title, author, publisher) VALUES
