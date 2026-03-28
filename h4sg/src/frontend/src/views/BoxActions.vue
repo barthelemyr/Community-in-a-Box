@@ -16,16 +16,17 @@
         <!-- Box title & address -->
         <div>
           <h1
-            class="text-white font-black uppercase leading-none"
-            style="font-size: clamp(3rem, 15vw, 7rem); letter-spacing: 0.04em"
+            class="text-white font-black uppercase leading-tight overflow-wrap-anywhere"
+            style="font-size: clamp(2rem, 9vw, 5rem); letter-spacing: 0.04em; overflow-wrap: break-word; word-break: break-word;"
           >
-            BOX №{{ boxId }}
+            {{ boxTitle }}
           </h1>
           <p
+            v-if="boxAddress"
             class="font-black uppercase tracking-wider text-gray-800 mt-1"
             style="font-size: clamp(0.85rem, 3.5vw, 1.2rem)"
           >
-            {{ t('address') }}: {{ boxAddress }}
+            {{ boxAddress }}
           </p>
         </div>
 
@@ -101,8 +102,26 @@ const router = useRouter()
 const { t } = useLocale()
 
 const boxId = ref(null)
+const boxTitle = ref('')
 const boxAddress = ref('')
 const error = ref(null)
+
+async function reverseGeocode(lat, lon) {
+  try {
+    const res = await fetch(`https://photon.komoot.io/reverse?lat=${lat}&lon=${lon}`)
+    if (!res.ok) return ''
+    const data = await res.json()
+    const p = data.features?.[0]?.properties
+    if (!p) return ''
+    const parts = [
+      p.street && p.housenumber ? `${p.street} ${p.housenumber}` : p.street,
+      p.postcode && p.city ? `${p.postcode} ${p.city}` : p.city,
+    ].filter(Boolean)
+    return parts.join(', ')
+  } catch {
+    return ''
+  }
+}
 
 onMounted(async () => {
   const id = route.params.id
@@ -115,7 +134,8 @@ onMounted(async () => {
     const res = await fetch(`/api/shelves/${id}`)
     if (!res.ok) throw new Error()
     const shelf = await res.json()
-    boxAddress.value = shelf.name
+    boxTitle.value = shelf.name
+    boxAddress.value = await reverseGeocode(shelf.latitude, shelf.longitude)
   } catch {
     error.value = t('noBox')
   }
