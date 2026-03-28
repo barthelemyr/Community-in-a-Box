@@ -87,7 +87,7 @@
                 style="background-color: #2a7a6e;"
               >{{ t('addBookPage.submitIsbn') }}</button>
               <button
-                @click="state = 'scanning'; startScanner()"
+                @click="cancelManual"
                 class="flex-1 rounded-2xl py-4 font-bold uppercase tracking-wider text-gray-800 border-2 border-gray-800 hover:bg-white/30 active:scale-95 transition-all"
               >{{ t('addBookPage.cancel') }}</button>
             </div>
@@ -95,8 +95,8 @@
 
         </div>
 
-        <!-- Bottom action buttons (always visible unless confirmed) -->
-        <div v-if="state !== 'found'" class="flex gap-3 w-full max-w-sm mt-2">
+        <!-- Bottom action buttons: hidden when confirmed or in manual entry -->
+        <div v-if="state === 'scanning' || state === 'error'" class="flex gap-3 w-full max-w-sm mt-2">
           <button
             @click="showManual"
             class="flex-1 rounded-2xl py-3 font-bold uppercase tracking-wider text-gray-800 border-2 border-gray-800 hover:bg-white/30 active:scale-95 transition-all text-sm"
@@ -114,7 +114,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { BrowserMultiFormatReader } from '@zxing/browser'
 import { BarcodeFormat, DecodeHintType } from '@zxing/library'
@@ -183,6 +183,13 @@ function resetScanner() {
 function showManual() {
   stopScanner()
   state.value = 'manual'
+}
+
+async function cancelManual() {
+  manualIsbn.value = ''
+  state.value = 'scanning'
+  await nextTick()
+  startScanner()
 }
 
 function submitManual() {
