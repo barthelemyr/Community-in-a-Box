@@ -1,5 +1,5 @@
 {
-  "library": "Öffentliche Bibliothek Biel",
+  "library": "Öffentlicher Bücherschrank",
   "address": "Adresse",
   "noBox": "Keine Box-ID gefunden. Bitte scannen Sie den QR-Code an einer Bücherbox.",
   "boxPhoto": "Gemeinschaftliche Bücherbox",
@@ -8,20 +8,20 @@
   "bookList": "Bücherliste",
   "bookInfo": "Buchinfos",
   "games": "Spiele",
-  "help": "Bibliothek unterstützen",
+  "help": "Unterstütze diesen Schrank!",
   "homePage": "Startseite",
   "comingSoon": "Demnächst verfügbar…",
   "pages": {
     "add":    "Buch hinzufügen",
-    "borrow": "Buch ausleihen",
+    "borrow": "Buch mitnehmen",
     "books":  "Bücherliste",
     "info":   "Buchinfos",
     "games":  "Spiele",
-    "help":   "Bibliothek unterstützen"
+    "help":   "Unterstütze diesen Schrank!"
   },
   "helpPage": {
-    "title": "Bibliothek\nunterstützen",
-    "thankYou": "Danke für Ihre Hilfe — jeder Scan zählt!",
+    "title": "Bücherschrank\nunterstützen",
+    "thankYou": "Danke für deine Hilfe — jeder Scan zählt!",
     "scanAll": "Alle Bücher scannen",
     "scanAllDesc": "Scannen Sie jedes Buch, um zu bestätigen, dass es noch in der Box ist.",
     "scanRandom": "Zufällig scannen",
@@ -44,15 +44,15 @@
   },
   "gamesHub": {
     "title": "Spiele",
-    "subtitle": "Helfen Sie der Bibliothek und haben Sie dabei Spaß!",
-    "findForgotten": "Die vergessenen Bücher finden",
-    "findForgottenDesc": "10 Bücher wurden lange nicht mehr gesehen. Können Sie sie alle finden?",
+    "subtitle": "Hilf Sie der Bibliothek auf eine spielerische Art und Weise!",
+    "findForgotten": "Finde die vergessenen Bücher",
+    "findForgottenDesc": "10 Bücher wurden lange nicht mehr gesehen. Kannst du sie finden?",
     "play": "Spielen",
     "comingSoon": "Demnächst"
   },
   "findForgotten": {
     "briefingTitle": "Ihre Mission",
-    "briefingDesc": "Finden und scannen Sie diese 10 Bücher in der Box. Jeder Scan aktualisiert die Bibliothek!",
+    "briefingDesc": "Finde und scanne diese 10 Bücher im Schrank. Jeder Scan aktualisiert den Bücherschrank!",
     "startGame": "Los!",
     "found": "gefunden",
     "of": "von",
@@ -60,14 +60,14 @@
     "alreadyFound": "Bereits gefunden!",
     "notInList": "Nicht auf der Liste — weitersuchen!",
     "finishedTitle": "Mission erfüllt!",
-    "finishedDesc": "Sie haben {found} von {total} Büchern gefunden.",
+    "finishedDesc": "Du hast {found} von {total} Büchern gefunden. Danke!",
     "timeTaken": "Zeit",
     "playAgain": "Nochmal spielen",
     "giveUp": "Aufgeben",
     "lastSeen": "Zuletzt gesehen"
   },
   "infoPage": {
-    "instruction": "Scannen Sie den ISBN-Barcode des Buches, über das Sie mehr erfahren möchten!",
+    "instruction": "Scanne den ISBN-Barcode des Buches, über das Du mehr erfahren möchtest!",
     "enterManually": "ISBN manuell eingeben",
     "manualPlaceholder": "ISBN eingeben (z.B. 978-3-16-148410-0)",
     "submitIsbn": "Bestätigen",
@@ -84,7 +84,7 @@
     "scanAgain": "Erneut scannen"
   },
   "borrowPage": {
-    "instruction": "Scannen Sie hier den ISBN-Barcode des Buches, das Sie ausleihen möchten! Danke :)",
+    "instruction": "Scanne hier den ISBN-Barcode des Buches, das Du ausleihen möchtest! Danke :)",
     "enterManually": "ISBN manuell eingeben",
     "readReviews": "Rezensionen lesen",
     "manualPlaceholder": "ISBN eingeben (z.B. 978-3-16-148410-0)",
@@ -94,12 +94,12 @@
     "cameraError": "Kamera nicht verfügbar. Bitte ISBN manuell eingeben.",
     "permissionDenied": "Kamerazugriff verweigert. Bitte ISBN manuell eingeben.",
     "isbnFound": "ISBN gefunden",
-    "confirmBorrow": "Dieses Buch aus Box ausleihen",
+    "confirmBorrow": "Dieses Buch aus dem Schrank ausleihen",
     "confirm": "Bestätigen",
     "scanAgain": "Erneut scannen"
   },
   "addBookPage": {
-    "instruction": "Scannen Sie hier den ISBN-Barcode des Buches, das Sie der Bibliothek hinzufügen möchten! Danke :)",
+    "instruction": "Scanne hier den ISBN-Barcode des Buches, das Du der Bibliothek hinzufügen möchtest! Danke :)",
     "enterManually": "ISBN manuell eingeben",
     "addReview": "Rezension hinzufügen",
     "manualPlaceholder": "ISBN eingeben (z.B. 978-3-16-148410-0)",
@@ -109,7 +109,7 @@
     "cameraError": "Kamera nicht verfügbar. Bitte ISBN manuell eingeben.",
     "permissionDenied": "Kamerazugriff verweigert. Bitte ISBN manuell eingeben.",
     "isbnFound": "ISBN gefunden",
-    "confirmAdd": "Dieses Buch zu Box hinzufügen",
+    "confirmAdd": "Dieses Buch zum Schrank hinzufügen",
     "confirm": "Bestätigen",
     "scanAgain": "Erneut scannen"
   }
