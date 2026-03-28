@@ -123,20 +123,23 @@ const submitting = ref(false)
 const submitError = ref('')
 
 let reader = null
+let handled = false
 
 const hints = new Map()
 hints.set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.EAN_13, BarcodeFormat.EAN_8])
 hints.set(DecodeHintType.TRY_HARDER, true)
 
 async function startScanner() {
+  handled = false
   state.value = 'scanning'
   try {
     reader = new BrowserMultiFormatReader(hints)
     await reader.decodeFromConstraints(
-      { video: { facingMode: 'environment' } },
+      { video: { facingMode: 'environment', advanced: [{ focusMode: 'continuous' }] } },
       videoEl.value,
       (result) => {
-        if (result) {
+        if (result && !handled) {
+          handled = true
           scannedIsbn.value = result.getText()
           stopScanner()
           state.value = 'found'

@@ -40,7 +40,14 @@
 
           <!-- State: book info found -->
           <div v-else-if="state === 'found'" class="flex flex-col gap-4">
-            <div class="bg-white/20 rounded-2xl p-4 flex gap-4 items-start">
+            <component
+              :is="book.url ? 'a' : 'div'"
+              :href="book.url || undefined"
+              :target="book.url ? '_blank' : undefined"
+              :rel="book.url ? 'noopener noreferrer' : undefined"
+              class="bg-white/20 rounded-2xl p-4 flex gap-4 items-start"
+              :class="book.url ? 'active:opacity-70 cursor-pointer' : ''"
+            >
               <!-- Cover image -->
               <img
                 v-if="book.cover"
@@ -65,8 +72,11 @@
                 <p v-if="book.year" class="text-white/90 text-sm">
                   <span class="font-semibold">{{ t('infoPage.published') }}:</span> {{ book.year }}
                 </p>
+                <p v-if="book.url" class="text-white/60 text-xs mt-1 flex items-center gap-1">
+                  <span>↗</span> {{ t('infoPage.moreInfo') }}
+                </p>
               </div>
-            </div>
+            </component>
             <button @click="resetScanner" class="btn-outline w-full">
               {{ t('infoPage.scanAgain') }}
             </button>
@@ -146,23 +156,27 @@ const state = ref('scanning')
 const scannedIsbn = ref('')
 const manualIsbn = ref('')
 const cameraError = ref('')
-const book = ref({ title: '', authors: '', publisher: '', year: '', cover: '' })
+const book = ref({ title: '', authors: '', publisher: '', year: '', cover: '', url: '' })
 
 let reader = null
+let handled = false
 
 const hints = new Map()
 hints.set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.EAN_13, BarcodeFormat.EAN_8])
 hints.set(DecodeHintType.TRY_HARDER, true)
 
 async function startScanner() {
+  handled = true
   state.value = 'scanning'
+  setTimeout(() => { handled = false }, 1500)
   try {
     reader = new BrowserMultiFormatReader(hints)
     await reader.decodeFromConstraints(
-      { video: { facingMode: 'environment' } },
+      { video: { facingMode: 'environment', advanced: [{ focusMode: 'continuous' }] } },
       videoEl.value,
       (result) => {
-        if (result) {
+        if (result && !handled) {
+          handled = true
           const isbn = result.getText()
           stopScanner()
           lookupIsbn(isbn)
@@ -207,6 +221,7 @@ async function lookupIsbn(isbn) {
       publisher: entry.publishers?.map((p) => p.name).join(', ') ?? '',
       year:      entry.publish_date ?? '',
       cover:     entry.cover?.medium ?? `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`,
+      url:       entry.url ?? '',
     }
     state.value = 'found'
   } catch {
@@ -216,7 +231,7 @@ async function lookupIsbn(isbn) {
 
 function resetScanner() {
   scannedIsbn.value = ''
-  book.value = { title: '', authors: '', publisher: '', year: '', cover: '' }
+  book.value = { title: '', authors: '', publisher: '', year: '', cover: '', url: '' }
   startScanner()
 }
 

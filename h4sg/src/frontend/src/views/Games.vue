@@ -266,7 +266,7 @@ async function startScanner() {
   try {
     reader = new BrowserMultiFormatReader(hints)
     await reader.decodeFromConstraints(
-      { video: { facingMode: 'environment' } },
+      { video: { facingMode: 'environment', advanced: [{ focusMode: 'continuous' }] } },
       videoEl.value,
       (result) => {
         if (result) handleScan(result.getText())
