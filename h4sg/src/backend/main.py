@@ -4,6 +4,7 @@ import requests
 from fastapi import Depends, FastAPI, HTTPException, Response, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+import secrets
 
 from database import Base, SessionLocal, engine
 from models import Book, Shelf, ShelfBook
@@ -20,20 +21,21 @@ app = FastAPI()
 
 Base.metadata.create_all(bind=engine)
 
-
 def get_db():
+    """Provide a database session for each request."""
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
 
-
 def normalize_isbn(isbn: str) -> str:
+    """Normalize an ISBN by removing spaces and hyphens."""
     return isbn.replace("-", "").replace(" ", "").strip()
 
 
 def fetch_book_from_openlibrary(isbn: str) -> dict | None:
+    """Fetch book metadata from Open Library using the given ISBN."""
     normalized_isbn = normalize_isbn(isbn)
     url = f"https://openlibrary.org/api/books?bibkeys=ISBN:{normalized_isbn}&format=json&jscmd=data"
 
@@ -77,6 +79,7 @@ def fetch_book_from_openlibrary(isbn: str) -> dict | None:
 
 
 def build_book_response(book: Book) -> BookResponse:
+    """Convert a Book model into the public book response schema."""
     return BookResponse(
         isbn=book.isbn,
         title=book.title,
@@ -86,6 +89,7 @@ def build_book_response(book: Book) -> BookResponse:
 
 
 def build_shelf_book_response(book: Book, last_scanned: datetime) -> ShelfBookResponse:
+    """Convert a Book model plus shelf scan timestamp into a shelf book response."""
     return ShelfBookResponse(
         isbn=book.isbn,
         title=book.title,
@@ -97,11 +101,13 @@ def build_shelf_book_response(book: Book, last_scanned: datetime) -> ShelfBookRe
 
 @app.get("/")
 def read_root():
+    """Health check endpoint to verify that the backend is running."""
     return {"message": "Backend is running"}
 
 
 @app.post("/shelves", response_model=ShelfResponse)
 def create_shelf(shelf_data: ShelfCreate, db: Session = Depends(get_db)):
+    """Create a new shelf with name and coordinates."""
     existing_shelf = db.scalar(
         select(Shelf).where(Shelf.name == shelf_data.name)
     )
@@ -109,6 +115,7 @@ def create_shelf(shelf_data: ShelfCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Shelf name already exists")
 
     shelf = Shelf(
+        id=secrets.token_hex(8),
         name=shelf_data.name,
         latitude=shelf_data.latitude,
         longitude=shelf_data.longitude,
@@ -121,12 +128,14 @@ def create_shelf(shelf_data: ShelfCreate, db: Session = Depends(get_db)):
 
 @app.get("/shelves", response_model=list[ShelfResponse])
 def list_shelves(db: Session = Depends(get_db)):
+    """Return all shelves stored in the database."""
     shelves = db.scalars(select(Shelf)).all()
     return shelves
 
 
 @app.get("/shelves/books", response_model=list[ShelfWithBooksResponse])
 def list_books_grouped_by_shelves(db: Session = Depends(get_db)):
+    """Return all shelves with their assigned books grouped under each shelf."""
     shelves = db.scalars(select(Shelf).order_by(Shelf.name)).all()
 
     shelf_books = db.scalars(
@@ -163,6 +172,7 @@ def list_books_grouped_by_shelves(db: Session = Depends(get_db)):
 
 @app.get("/shelves/books/{isbn}", response_model=list[ShelfBooksGroupResponse])
 def list_shelf_occurrences_for_book(isbn: str, db: Session = Depends(get_db)):
+    """Return all shelves that currently contain the given ISBN."""
     normalized_isbn = normalize_isbn(isbn)
 
     shelf_books = db.scalars(
@@ -199,6 +209,7 @@ def list_shelf_occurrences_for_book(isbn: str, db: Session = Depends(get_db)):
 
 @app.get("/shelves/{shelf_id}", response_model=ShelfResponse)
 def get_shelf_by_id(shelf_id: str, db: Session = Depends(get_db)):
+    """Return one shelf by its shelf ID."""
     shelf = db.get(Shelf, shelf_id)
     if shelf is None:
         raise HTTPException(status_code=404, detail="Shelf not found")
@@ -208,6 +219,7 @@ def get_shelf_by_id(shelf_id: str, db: Session = Depends(get_db)):
 
 @app.get("/books", response_model=list[BookResponse])
 def list_books(db: Session = Depends(get_db)):
+    """Return all books stored in the books table."""
     books = db.scalars(
         select(Book).order_by(Book.title, Book.isbn)
     ).all()
@@ -217,6 +229,7 @@ def list_books(db: Session = Depends(get_db)):
 
 @app.get("/books/{isbn}", response_model=BookResponse)
 def get_book_by_isbn(isbn: str, db: Session = Depends(get_db)):
+    """Return one book by its ISBN without shelf association data."""
     normalized_isbn = normalize_isbn(isbn)
 
     book = db.get(Book, normalized_isbn)
@@ -229,6 +242,7 @@ def get_book_by_isbn(isbn: str, db: Session = Depends(get_db)):
 
 @app.get("/shelves/{shelf_id}/books", response_model=list[ShelfBookResponse])
 def list_books_for_shelf(shelf_id: str, db: Session = Depends(get_db)):
+    """Return all books currently assigned to a specific shelf."""
     shelf = db.get(Shelf, shelf_id)
     if shelf is None:
         raise HTTPException(status_code=404, detail="Shelf not found")
@@ -263,6 +277,7 @@ def add_or_update_book_in_shelf(
     response: Response,
     db: Session = Depends(get_db),
 ):
+    """Add a book to a shelf or update its last_scanned timestamp if it already exists there."""
     normalized_isbn = normalize_isbn(isbn)
     scanned_at = datetime.now(timezone.utc)
 
@@ -315,6 +330,7 @@ def add_or_update_book_in_shelf(
 
 @app.delete("/shelves/{shelf_id}/books/{isbn}", status_code=status.HTTP_204_NO_CONTENT)
 def borrow_book_from_shelf(shelf_id: str, isbn: str, db: Session = Depends(get_db)):
+    """Remove a book from a shelf, for example when it is borrowed."""
     normalized_isbn = normalize_isbn(isbn)
 
     shelf = db.get(Shelf, shelf_id)
