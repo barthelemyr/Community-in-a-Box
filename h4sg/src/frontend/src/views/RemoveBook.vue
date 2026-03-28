@@ -3,10 +3,8 @@
     <div class="flex-1 flex flex-col lg:flex-row items-center lg:items-start gap-6 px-6 pb-10 lg:px-12">
 
       <!-- Left: page title -->
-      <div class="lg:flex-1 flex items-center lg:items-start lg:pt-8">
-        <h1 class="page-title-sub text-white">
-          BORROW<br>A BOOK
-        </h1>
+      <div class="w-full lg:flex-1 flex items-center lg:items-start lg:pt-8">
+        <FitTitle class="text-white">BORROW<br>A BOOK</FitTitle>
       </div>
 
       <!-- Right: scanner area -->
@@ -106,6 +104,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { BrowserMultiFormatReader } from '@zxing/browser'
 import { BarcodeFormat, DecodeHintType } from '@zxing/library'
 import { useLocale } from '../composables/useLocale.js'
+import FitTitle from '../components/FitTitle.vue'
 
 const route = useRoute()
 const router = useRouter()

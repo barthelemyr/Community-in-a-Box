@@ -15,12 +15,7 @@
       <div class="flex-1 flex flex-col gap-4 w-full">
         <!-- Box title & address -->
         <div>
-          <h1
-            class="text-white font-black uppercase leading-tight overflow-wrap-anywhere"
-            style="font-size: clamp(2rem, 9vw, 5rem); letter-spacing: 0.04em; overflow-wrap: break-word; word-break: break-word;"
-          >
-            {{ boxTitle }}
-          </h1>
+          <FitTitle class="text-white" style="letter-spacing: 0.04em;">{{ boxTitle }}</FitTitle>
           <p
             v-if="boxAddress"
             class="font-black uppercase tracking-wider text-gray-800 mt-1"
@@ -96,6 +91,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useLocale } from '../composables/useLocale.js'
+import FitTitle from '../components/FitTitle.vue'
 
 const route = useRoute()
 const router = useRouter()
