@@ -108,7 +108,7 @@
                 class="btn-confirm flex-1"
               >{{ t('infoPage.submitIsbn') }}</button>
               <button
-                @click="state = 'scanning'; startScanner()"
+                @click="cancelManual"
                 class="btn-outline flex-1"
               >{{ t('infoPage.cancel') }}</button>
             </div>
@@ -129,7 +129,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { BrowserMultiFormatReader } from '@zxing/browser'
 import { BarcodeFormat, DecodeHintType } from '@zxing/library'
@@ -224,6 +224,13 @@ function resetScanner() {
 function showManual() {
   stopScanner()
   state.value = 'manual'
+}
+
+async function cancelManual() {
+  manualIsbn.value = ''
+  state.value = 'scanning'
+  await nextTick()
+  startScanner()
 }
 
 function submitManual() {

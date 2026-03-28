@@ -7,7 +7,7 @@
           @click="backToBox"
           class="font-bold underline text-gray-800 hover:opacity-70 transition-opacity"
         >
-          {{ t('Back to box') }}
+          {{ t('backToBox') }}
         </button>
       </div>
     </header>

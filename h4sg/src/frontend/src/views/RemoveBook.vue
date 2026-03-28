@@ -77,7 +77,7 @@
                 class="btn-confirm flex-1"
               >{{ t('borrowPage.submitIsbn') }}</button>
               <button
-                @click="state = 'scanning'; startScanner()"
+                @click="cancelManual"
                 class="btn-outline flex-1"
               >{{ t('borrowPage.cancel') }}</button>
             </div>
@@ -86,7 +86,7 @@
         </div>
 
         <!-- Bottom action buttons -->
-        <div v-if="state !== 'found'" class="flex gap-3 w-full max-w-sm mt-2">
+        <div v-if="state === 'scanning' || state === 'error'" class="flex gap-3 w-full max-w-sm mt-2">
           <button @click="showManual" class="btn-outline flex-1">
             {{ t('borrowPage.enterManually') }}
           </button>
@@ -101,7 +101,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { BrowserMultiFormatReader } from '@zxing/browser'
 import { BarcodeFormat, DecodeHintType } from '@zxing/library'
@@ -165,6 +165,13 @@ function resetScanner() {
 function showManual() {
   stopScanner()
   state.value = 'manual'
+}
+
+async function cancelManual() {
+  manualIsbn.value = ''
+  state.value = 'scanning'
+  await nextTick()
+  startScanner()
 }
 
 function submitManual() {

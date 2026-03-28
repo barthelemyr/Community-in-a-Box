@@ -104,26 +104,21 @@ const boxId = ref(null)
 const boxAddress = ref('')
 const error = ref(null)
 
-// Mock API — replace with real fetch once backend /boxes/{id} endpoint exists
-function fetchBoxInfo(id) {
-  const mockBoxes = {
-    1: 'Hauptstrasse 1, Bienne',
-    2: 'Bahnhofplatz 3, Bienne',
-    3: 'Rue de Nidau 12, Bienne',
-    4: 'Switzerland, Bienne',
-    42: 'Musterstrasse 5, Bienne',
-  }
-  return mockBoxes[id] ?? `Box ${id} location`
-}
-
-onMounted(() => {
+onMounted(async () => {
   const id = route.params.id
   if (!id) {
     error.value = t('noBox')
     return
   }
   boxId.value = id
-  boxAddress.value = fetchBoxInfo(Number(id))
+  try {
+    const res = await fetch(`/api/shelves/${id}`)
+    if (!res.ok) throw new Error()
+    const shelf = await res.json()
+    boxAddress.value = shelf.name
+  } catch {
+    error.value = t('noBox')
+  }
 })
 
 const purpleButtons = [

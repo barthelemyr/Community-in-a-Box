@@ -11,13 +11,14 @@
   "help": "Help the Library",
   "homePage": "Home page",
   "comingSoon": "Coming soon…",
+  "backToBox": "Back to box",
   "pages": {
-    "add":    "Add A Book",
+    "add": "Add A Book",
     "borrow": "Borrow A Book",
-    "books":  "Book List",
-    "info":   "Info About Book",
-    "games":  "Games",
-    "help":   "Help The Library"
+    "books": "Book List",
+    "info": "Info About Book",
+    "games": "Games",
+    "help": "Help The Library"
   },
   "borrowPage": {
     "instruction": "Scan the ISBN barcode of the book you want to borrow from the library here! Thank you :)",
