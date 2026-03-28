@@ -7,6 +7,7 @@ import RemoveBook from '../views/RemoveBook.vue'
 import InfoAboutBook from '../views/InfoAboutBook.vue'
 import Home from '@/views/Home.vue'
 import BoxActions from '@/views/BoxActions.vue'
+import Games from '@/views/Games.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,7 +44,7 @@ const router = createRouter({
         {
           path: 'games',
           name: 'games',
-          component: PlaceholderView,
+          component: Games,
           meta: { bgClass: 'page-cream' },
         },
         {

@@ -51,6 +51,30 @@
     "published": "Published",
     "scanAgain": "Scan again"
   },
+  "gamesHub": {
+    "title": "Games",
+    "subtitle": "Help the library while having fun!",
+    "findForgotten": "Find the Forgotten Books",
+    "findForgottenDesc": "10 books haven't been seen in a while. Can you find them all?",
+    "play": "Play",
+    "comingSoon": "Coming soon"
+  },
+  "findForgotten": {
+    "briefingTitle": "Your Mission",
+    "briefingDesc": "Find and scan these 10 books hidden in the box. Each scan updates the library!",
+    "startGame": "Start!",
+    "found": "found",
+    "of": "of",
+    "scanning": "Scanning…",
+    "alreadyFound": "Already found!",
+    "notInList": "Not in the list — keep looking!",
+    "finishedTitle": "Mission Complete!",
+    "finishedDesc": "You found {found} out of {total} books.",
+    "timeTaken": "Time",
+    "playAgain": "Play again",
+    "giveUp": "Give up",
+    "lastSeen": "Last seen"
+  },
   "addBookPage": {
     "instruction": "Scan the ISBN barcode of the book you want to add to the library here! Thank you :)",
     "enterManually": "Enter ISBN Manually",
