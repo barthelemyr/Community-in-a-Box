@@ -97,7 +97,8 @@
     "isbnFound": "ISBN trouvé",
     "confirmBorrow": "Emprunter ce livre de la bibliothèque",
     "confirm": "Confirmer",
-    "scanAgain": "Scanner à nouveau"
+    "scanAgain": "Scanner à nouveau",
+    "submitError": "Une erreur est survenue. Veuillez réessayer."
   },
   "addBookPage": {
     "instruction": "Scanne ici le code-barres ISBN du livre que tu souhaites ajouter à la bibliothèque ! Merci :)",
@@ -112,6 +113,7 @@
     "isbnFound": "ISBN trouvé",
     "confirmAdd": "Ajouter ce livre à la bibliothèque",
     "confirm": "Confirmer",
-    "scanAgain": "Scanner à nouveau"
+    "scanAgain": "Scanner à nouveau",
+    "submitError": "Une erreur est survenue. Veuillez réessayer."
   }
 }

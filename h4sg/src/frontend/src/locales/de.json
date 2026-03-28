@@ -97,7 +97,8 @@
     "isbnFound": "ISBN gefunden",
     "confirmBorrow": "Dieses Buch aus dem Schrank ausleihen",
     "confirm": "Bestätigen",
-    "scanAgain": "Erneut scannen"
+    "scanAgain": "Erneut scannen",
+    "submitError": "Etwas ist schiefgelaufen. Bitte erneut versuchen."
   },
   "addBookPage": {
     "instruction": "Scanne hier den ISBN-Barcode des Buches, das Du der Bibliothek hinzufügen möchtest! Danke :)",
@@ -112,6 +113,7 @@
     "isbnFound": "ISBN gefunden",
     "confirmAdd": "Dieses Buch zum Schrank hinzufügen",
     "confirm": "Bestätigen",
-    "scanAgain": "Erneut scannen"
+    "scanAgain": "Erneut scannen",
+    "submitError": "Etwas ist schiefgelaufen. Bitte erneut versuchen."
   }
 }
