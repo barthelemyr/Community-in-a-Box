@@ -84,6 +84,12 @@
     "published": "Erschienen",
     "scanAgain": "Erneut scannen"
   },
+  "bookListPage": {
+    "total": "Bücher",
+    "search": "Nach Titel, Autor oder ISBN suchen…",
+    "noResults": "Keine Bücher gefunden.",
+    "loadError": "Bücher konnten nicht geladen werden. Bitte erneut versuchen."
+  },
   "borrowPage": {
     "instruction": "Scanne hier den ISBN-Barcode des Buches, das Du ausleihen möchtest! Danke :)",
     "enterManually": "ISBN manuell eingeben",

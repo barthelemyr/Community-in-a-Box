@@ -84,6 +84,12 @@
     "published": "Publié",
     "scanAgain": "Scanner à nouveau"
   },
+  "bookListPage": {
+    "total": "livres",
+    "search": "Rechercher par titre, auteur ou ISBN…",
+    "noResults": "Aucun livre trouvé.",
+    "loadError": "Impossible de charger les livres. Veuillez réessayer."
+  },
   "borrowPage": {
     "instruction": "Scanne ici le code-barres ISBN du livre que tu souhaites emprunter ! Merci :)",
     "enterManually": "Saisir l'ISBN manuellement",

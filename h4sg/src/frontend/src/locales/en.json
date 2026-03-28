@@ -20,6 +20,12 @@
     "games": "Games",
     "help": "Help The Library"
   },
+  "bookListPage": {
+    "total": "books",
+    "search": "Search by title, author or ISBN…",
+    "noResults": "No books found.",
+    "loadError": "Could not load books. Please try again."
+  },
   "borrowPage": {
     "instruction": "Scan the ISBN barcode of the book you want to borrow from the library here! Thank you :)",
     "enterManually": "Enter ISBN Manually",
