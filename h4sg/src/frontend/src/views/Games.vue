@@ -287,7 +287,7 @@ function stopScanner() {
 // ── Game logic ─────────────────────────────────────────────────────
 const foundCount = computed(() => targetBooks.value.filter((b) => b.found).length)
 
-function handleScan(isbn) {
+async function handleScan(isbn) {
   const book = targetBooks.value.find((b) => b.isbn === isbn)
   if (!book) {
     showFeedback(t('findForgotten.notInList'), 'error')
