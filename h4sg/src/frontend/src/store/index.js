@@ -17,10 +17,10 @@ export const useBoxStore = defineStore('boxStore', {
   },
 
   actions: {
-    async fetchBoxBooksById(id) {
-      const existingBox = this.boxes.find((box) => box.id == id)
+    async fetchBoxById(id) {
+      const existingBox = this.boxes.find(box => box.id == id)
 
-      if (existingBox) {
+      if (existingBox){
         console.log(`Box ${id} loaded from Pinia cache!`)
         return existingBox
       }
@@ -28,15 +28,41 @@ export const useBoxStore = defineStore('boxStore', {
       try {
         console.log(`Fetching Box ${id} from API...`)
 
-        const response = await fetch(`/api/shelves/${id}/books`)
+        const response = await fetch(`/api/shelves/books`)
+
+        if (!response.ok) throw new Error('Network response was not ok')
+
+        const Boxes = await response.json()
+        const newBox = Boxes.find((box) => box.id === id)
+
+        this.boxes.push(newBox)
+
+        return newBox
+      } catch (error) {
+        console.error(`Failed to fetch box ${id}:`, error)
+      }
+    },
+
+    async fetchBoxBooksById(id) {
+      const existingBox = this.boxes.find((box) => box.id == id)
+
+      if (existingBox) {
+        console.log(`Books from box ${id} loaded from Pinia cache!`)
+        return existingBox.books
+      }
+
+      try {
+        console.log(`Fetching Books from box ${id} from API...`)
+
+        const response = await fetch(`/api/shelves/books`)
 
         if (!response.ok) throw new Error('Network response was not ok')
 
         const newBox = await response.json()
 
-        this.boxes.push(newBox)
+        this.boxes.push(newBox.find(box => box.id === id))
 
-        return newBox
+        return newBox.books
       } catch (error) {
         console.error(`Failed to fetch box ${id}:`, error)
       }

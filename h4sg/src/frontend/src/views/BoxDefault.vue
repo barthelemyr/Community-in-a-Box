@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen flex flex-col">
-
     <!-- Error state -->
     <div v-if="error" class="flex-1 flex items-center justify-center p-8">
       <p class="text-xl font-bold text-gray-800 text-center">{{ error }}</p>
@@ -15,7 +14,7 @@
       <div class="flex-1 flex flex-col gap-4 w-full">
         <!-- Box title & address -->
         <div>
-          <FitTitle class="text-white" style="letter-spacing: 0.04em;">{{ boxTitle }}</FitTitle>
+          <FitTitle class="text-white" style="letter-spacing: 0.04em">{{ boxTitle }}</FitTitle>
           <p
             v-if="boxAddress"
             class="font-black uppercase tracking-wider text-gray-800 mt-1"
@@ -92,10 +91,12 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useLocale } from '../composables/useLocale.js'
 import FitTitle from '../components/FitTitle.vue'
+import { useBoxStore } from '@/store/index.js'
 
 const route = useRoute()
 const router = useRouter()
 const { t } = useLocale()
+const boxStore = useBoxStore()
 
 const boxId = ref(null)
 const boxTitle = ref('')
@@ -127,11 +128,12 @@ onMounted(async () => {
   }
   boxId.value = id
   try {
-    const res = await fetch(`/api/shelves/${id}`)
-    if (!res.ok) throw new Error()
-    const shelf = await res.json()
-    boxTitle.value = shelf.name
-    boxAddress.value = await reverseGeocode(shelf.latitude, shelf.longitude)
+    const fetchedBox = await boxStore.fetchBoxById(id)
+
+    if (fetchedBox) {
+      boxTitle.value = fetchedBox.name
+      boxAddress.value = await reverseGeocode(fetchedBox.latitude, fetchedBox.longitude)
+    }
   } catch {
     error.value = t('noBox')
   }

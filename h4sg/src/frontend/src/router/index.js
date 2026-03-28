@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import BoxView from '../views/BoxView.vue'
+import BoxWrapper from '../views/BoxWrapper.vue'
 import AddBook from '../views/AddBook.vue'
 import BookList from '@/views/BookList.vue'
 import RemoveBook from '../views/RemoveBook.vue'
 import InfoAboutBook from '../views/InfoAboutBook.vue'
 import HomeView from '@/views/HomeView.vue'
-import BoxActions from '@/views/BoxActions.vue'
+import BoxDefault from '@/views/BoxDefault.vue'
 import Games from '@/views/Games.vue'
 import HelpTheBox from '@/views/HelpTheBox.vue'
 
@@ -18,10 +18,10 @@ const router = createRouter({
     {
       path: '/box/:id',
       name: 'box',
-      component: BoxView,
+      component: BoxWrapper,
       children: [
         // Actions scoped to a specific box
-        { path: '', name: 'boxHome', component: BoxActions, meta: { bgClass: 'page-yellow' } },
+        { path: '', name: 'boxHome', component: BoxDefault, meta: { bgClass: 'page-yellow' } },
         { path: 'add', name: 'add', component: AddBook, meta: { bgClass: 'page-purple' } },
         {
           path: 'borrow',
